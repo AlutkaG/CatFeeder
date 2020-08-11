@@ -3,15 +3,13 @@ import "./App.css";
 import Navbar from "./components/Navbar/Navbar";
 
 function App() {
-	const [ala, setAla] = useState(0);
+	const [ala, setAla] = useState([{}]);
 
 	useEffect(() => {
-		fetch("/api/time")
+		fetch("/api")
 			.then((res) => res.json())
-			.then((data) => {
-				setAla(data.time);
-			});
-	}, []);
+			.then((data) => console.log(data));
+	});
 	return (
 		<div className='App'>
 			{/*<Navbar />*/}
