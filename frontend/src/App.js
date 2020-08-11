@@ -6,7 +6,7 @@ function App() {
 	const [ala, setAla] = useState("");
 
 	useEffect(() => {
-		fetch("192.168.1.22:8000")
+		fetch("192.168.1.22:8000/hello")
 			.then((res) => res.json())
 			.then((data) => {
 				setAla(data.body);
