@@ -3,10 +3,10 @@ import "./App.css";
 import Navbar from "./components/Navbar/Navbar";
 
 function App() {
-	const [ala, setAla] = useState("");
+	const [ala, setAla] = useState(0);
 
 	useEffect(() => {
-		fetch("192.168.1.22:8000/time")
+		fetch("/api/time")
 			.then((res) => res.json())
 			.then((data) => {
 				setAla(data.time);
