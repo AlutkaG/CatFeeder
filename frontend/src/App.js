@@ -13,7 +13,6 @@ function App() {
 	return (
 		<div className='App'>
 			{/*<Navbar />*/}
-			<p> Cos powinno tu byc: {ala}</p>
 		</div>
 	);
 }
