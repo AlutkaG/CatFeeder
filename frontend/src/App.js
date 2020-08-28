@@ -1,19 +1,25 @@
 import React, { useEffect, useState } from "react";
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import "./App.css";
 import Navbar from "./components/Navbar/Navbar";
+import Temperature from "./components/Temperature/Temperature";
+import StartPage from "./components/StartPage/StartPage";
 
 function App() {
 	const [ala, setAla] = useState([{}]);
 
-	useEffect(() => {
-		fetch("/api")
-			.then((res) => res.json())
-			.then((data) => console.log(data));
-	});
 	return (
-		<div className='App'>
-			{/*<Navbar />*/}
-		</div>
+		<Router>
+			<div className='App'>
+				<Navbar />
+				<div className='container'>
+					<Switch>
+						{/*<Route exact path='/' component={Home} />*/}
+						<Route path='/temperature' component={Temperature} />
+					</Switch>
+				</div>
+			</div>
+		</Router>
 	);
 }
 

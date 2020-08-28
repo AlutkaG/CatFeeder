@@ -8,8 +8,11 @@ import {
 	FaQuestion,
 	FaCog,
 } from "react-icons/fa";
+import { Route } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 import Aux from "../../hoc/Aux";
+import Temperature from "../Temperature/Temperature";
 
 import "./Navbar.css";
 
@@ -20,33 +23,33 @@ const navbar = (props) => {
 				<p className='appName'>Pet Feeder</p>
 				<div className='sideNavLinks'>
 					<a href='/'>
-						<FaHome style={{ paddingRight: "20px", color: " #e0afa0" }} />
+						<FaHome style={{ paddingRight: "20px", color: " #CD8987" }} />
 						Home
 					</a>
 					<a href='/'>
-						<FaPaw style={{ paddingRight: "20px", color: " #e0afa0" }} />
+						<FaPaw style={{ paddingRight: "20px", color: " #CD8987" }} />
 						My pets
 					</a>
-					<a href='/'>
+					<Link to='/temperature'>
 						<FaTemperatureLow
-							style={{ paddingRight: "20px", color: " #e0afa0" }}
+							style={{ paddingRight: "20px", color: " #CD8987" }}
 						/>
 						Temperature
-					</a>
+					</Link>
 					<a href='/'>
-						<FaClock style={{ paddingRight: "20px", color: " #e0afa0" }} />
+						<FaClock style={{ paddingRight: "20px", color: " #CD8987" }} />
 						Dose
 					</a>
 					<a href='/'>
-						<FaVideo style={{ paddingRight: "20px", color: " #e0afa0" }} />
+						<FaVideo style={{ paddingRight: "20px", color: " #CD8987" }} />
 						Camera
 					</a>
 					<a href='/'>
-						<FaQuestion style={{ paddingRight: "20px", color: " #e0afa0" }} />{" "}
+						<FaQuestion style={{ paddingRight: "20px", color: " #CD8987" }} />{" "}
 						About app
 					</a>
 					<a href='/'>
-						<FaCog style={{ paddingRight: "20px", color: " #e0afa0" }} />
+						<FaCog style={{ paddingRight: "20px", color: " #CD8987" }} />
 						Settings
 					</a>
 				</div>

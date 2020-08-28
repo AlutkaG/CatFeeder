@@ -1,0 +1,71 @@
+.thermBox {
+	padding-top: 3%;
+	padding-left: 2%;
+	width: 350px;
+	height: 650px;
+	background-color: #494850;
+	background-image: url("../../img/paws3.png");
+	background-repeat: no-repeat;
+	background-position: center;
+	margin-top: 2%;
+	margin-left: 25%;
+	border-radius: 5px;
+	box-shadow: 2px 16px 30px 10px rgba(0, 0, 0, 0.5);
+}
+
+.titleBox {
+	padding-top: 1%;
+	padding-left: 2%;
+	width: 70vw;
+	height: 100px;
+	color: whitesmoke;
+	text-align: center;
+	font-size: 60px;
+	background-color: #494850;
+	background-image: url("../../img/paws.png");
+	background-repeat: no-repeat;
+	background-position: center;
+	margin-top: 2%;
+	margin-left: 25%;
+	border-radius: 5px;
+	box-shadow: 2px 16px 30px 10px rgba(0, 0, 0, 0.5);
+}
+
+.tempBox {
+	padding-top: 1%;
+	padding-left: 2%;
+	width: 200px;
+	color: whitesmoke;
+	text-align: center;
+	line-height: 550px;
+	font-size: 200px;
+	background-color: #494850;
+	background-image: url("../../img/paws2.png");
+	background-repeat: no-repeat;
+	background-position: center;
+	margin-top: 2%;
+	margin-left: 2%;
+	border-radius: 5px;
+	box-shadow: 2px 16px 30px 10px rgba(0, 0, 0, 0.5);
+}
+
+.column {
+	float: left;
+	padding-top: 3%;
+	height: 650px; /* Should be removed. Only for demonstration */
+}
+
+.left {
+	width: 350px;
+}
+
+.right {
+	width: 915px;
+}
+
+/* Clear floats after the columns */
+.row:after {
+	content: "";
+	display: table;
+	clear: both;
+}
