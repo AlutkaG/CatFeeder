@@ -3,14 +3,17 @@
 	padding-left: 2%;
 	width: 350px;
 	height: 650px;
+	/* DARK THEME
 	background-color: #494850;
-	background-image: url("../../img/paws3.png");
+	*/
+	background-color: #99ccff;
+	background-image: url("../../img/paws3v3.png");
 	background-repeat: no-repeat;
 	background-position: center;
 	margin-top: 2%;
 	margin-left: 25%;
-	border-radius: 5px;
-	box-shadow: 2px 16px 30px 10px rgba(0, 0, 0, 0.5);
+	border-radius: 3px;
+	box-shadow: 10px 12px 56px -24px rgba(0, 0, 0, 0.67);
 }
 
 .titleBox {
@@ -18,35 +21,41 @@
 	padding-left: 2%;
 	width: 70vw;
 	height: 100px;
-	color: whitesmoke;
+	color: #004080;
 	text-align: center;
 	font-size: 60px;
+	/* DARK THEME
 	background-color: #494850;
-	background-image: url("../../img/paws.png");
+	*/
+	background-color: #99ccff;
+	background-image: url("../../img/pawsv2.png");
 	background-repeat: no-repeat;
 	background-position: center;
 	margin-top: 2%;
 	margin-left: 25%;
-	border-radius: 5px;
-	box-shadow: 2px 16px 30px 10px rgba(0, 0, 0, 0.5);
+	border-radius: 3px;
+	box-shadow: 10px 12px 56px -24px rgba(0, 0, 0, 0.67);
 }
 
 .tempBox {
 	padding-top: 1%;
 	padding-left: 2%;
 	width: 200px;
-	color: whitesmoke;
+	color: #004080;
 	text-align: center;
 	line-height: 550px;
 	font-size: 200px;
+	/* DARK THEME
 	background-color: #494850;
-	background-image: url("../../img/paws2.png");
+	*/
+	background-color: #99ccff;
+	background-image: url("../../img/paws2v2.png");
 	background-repeat: no-repeat;
 	background-position: center;
 	margin-top: 2%;
 	margin-left: 2%;
-	border-radius: 5px;
-	box-shadow: 2px 16px 30px 10px rgba(0, 0, 0, 0.5);
+	border-radius: 3px;
+	box-shadow: 10px 12px 56px -24px rgba(0, 0, 0, 0.67);
 }
 
 .column {

@@ -5,10 +5,11 @@
 	z-index: 1;
 	top: 0;
 	left: 0;
-	background-color: #333333;
+	background-color: #af7a6d;
 	overflow-x: hidden;
 	padding-top: 50px;
 	text-align: center;
+	box-shadow: 28px 0px 63px -55px rgba(0, 0, 0, 0.66);
 }
 
 .sideNavLinks {
@@ -20,7 +21,7 @@
 .sideNavLinks a {
 	text-decoration: none;
 	font-size: 30px;
-	color: whitesmoke;
+	color: #fffbfc;
 	display: block;
 	padding-bottom: 20px;
 }
@@ -30,9 +31,38 @@
 	font-weight: bold;
 }
 
-.appName {
-	font-size: 50px;
+.topNav {
+	height: 15%;
+	width: 100%;
+	position: fixed;
+	z-index: 1;
+	top: 0;
+	margin-top: 30px;
+	background-color: #333333;
+	overflow-y: hidden;
+}
+
+.topNavLinks {
+	text-align: right;
+}
+
+.topNavLinks a {
+	text-decoration: none;
+	color: #fffbfc;
+	display: inline;
+}
+
+.topNavLinks a:hover {
 	color: white;
+	cursor: pointer;
+}
+
+.appName {
+	text-align: left;
+	font-size: 50px;
+	padding-left: 20px;
+	font-weight: 500;
+	color: whitesmoke;
 }
 
 .footerNav {

@@ -19,37 +19,53 @@ import "./Navbar.css";
 const navbar = (props) => {
 	return (
 		<Aux>
+			<div className='topNav'>
+				<div
+					className='topNavLinks'
+					style={{ float: "left", textDecoration: "none" }}
+				>
+					<a className='appName'>Pets Feeder</a>
+				</div>
+				<div className='topNavLinks'>
+					<a href='#'>
+						<FaHome style={{ color: "white" }} />
+					</a>
+				</div>
+			</div>
+		</Aux>
+		/*
+		<Aux>
 			<div className='sideNav'>
 				<p className='appName'>Pet Feeder</p>
 				<div className='sideNavLinks'>
 					<a href='/'>
-						<FaHome style={{ paddingRight: "20px", color: " #CD8987" }} />
+						<FaHome style={{ paddingRight: "20px", color: " #6E0D25" }} />
 						Home
 					</a>
 					<a href='/'>
-						<FaPaw style={{ paddingRight: "20px", color: " #CD8987" }} />
+						<FaPaw style={{ paddingRight: "20px", color: " #6E0D25" }} />
 						My pets
 					</a>
 					<Link to='/temperature'>
 						<FaTemperatureLow
-							style={{ paddingRight: "20px", color: " #CD8987" }}
+							style={{ paddingRight: "20px", color: " #6E0D25" }}
 						/>
 						Temperature
 					</Link>
 					<a href='/'>
-						<FaClock style={{ paddingRight: "20px", color: " #CD8987" }} />
+						<FaClock style={{ paddingRight: "20px", color: " #6E0D25" }} />
 						Dose
 					</a>
 					<a href='/'>
-						<FaVideo style={{ paddingRight: "20px", color: " #CD8987" }} />
+						<FaVideo style={{ paddingRight: "20px", color: " #6E0D25" }} />
 						Camera
 					</a>
 					<a href='/'>
-						<FaQuestion style={{ paddingRight: "20px", color: " #CD8987" }} />{" "}
+						<FaQuestion style={{ paddingRight: "20px", color: " #6E0D25" }} />{" "}
 						About app
 					</a>
 					<a href='/'>
-						<FaCog style={{ paddingRight: "20px", color: " #CD8987" }} />
+						<FaCog style={{ paddingRight: "20px", color: " #6E0D25" }} />
 						Settings
 					</a>
 				</div>
@@ -64,6 +80,7 @@ const navbar = (props) => {
 				</div>
 			</div>
 		</Aux>
+		*/
 	);
 };
 

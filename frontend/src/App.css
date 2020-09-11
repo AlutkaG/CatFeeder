@@ -1,5 +1,11 @@
 body {
-	background-color: #37393a;
+	/* DARK THEME
+	background-color: #494850;
+	*/
+	background-color: #333333;
+	background-image: url("./img/pawsLot2.png");
+	background-repeat: no-repeat;
+	background-position: center;
 }
 
 .App-logo {
