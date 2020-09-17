@@ -1,17 +1,22 @@
 .column {
 	float: center;
-	padding-top: 10%;
+	padding-top: 8%;
 	height: 650px; /* Should be removed. Only for demonstration */
 }
 
 .left {
-	width: 50vw;
+	width: 20%;
+	z-index: 1;
+}
+
+.center {
+	width: 20%;
+	z-index: -1;
 }
 
 .right {
 	text-align: center;
-
-	width: 50vw;
+	width: 50%;
 }
 
 .pressButton {
@@ -20,14 +25,15 @@
 	height: 400px;
 	background-color: rgb(26, 26, 26, 0.6);
 	border-style: none;
-	margin-top: 10%;
-	box-shadow: 6px 6px 23px -9px rgba(0, 0, 0, 0.64);
-	border-color: #a38a84;
+	box-shadow: 10px 10px 75px 30px rgba(0, 0, 0, 0.64);
+	border-color: #c8bab6;
 	border-width: 1px;
 	border-style: solid;
-	border-radius: 4px;
+	border-radius: 100%;
 	outline: none;
 	cursor: pointer;
+	margin-left: 15%;
+	margin-top: 1%;
 }
 
 .pressButton:hover {
@@ -38,23 +44,62 @@
 	transform: translateY(4px);
 }
 
-.pressText {
-	font-size: 80px;
-	color: whitesmoke;
+.pressTextBox {
 	padding-bottom: 10%;
 	background-color: rgb(26, 26, 26, 0.6);
 	width: 70%;
-	height: 20px;
-	border-radius: 4px;
-	border-color: #a38a84;
+	height: 60px;
+	border-radius: 100%;
+	border-color: #c8bab6;
 	border-width: 1px;
 	border-style: solid;
 	margin-left: 15%;
 	box-shadow: 6px 6px 23px -9px rgba(0, 0, 0, 0.64);
 }
 
-.background {
-	background-image: url("../../img/pawsLot.png");
-	background-repeat: no-repeat;
-	background-position: center;
+.pressText {
+	color: whitesmoke;
+	font-size: 80px;
+	margin-top: 25px;
+}
+
+.textBox1 {
+	background-color: rgb(200, 186, 182, 0.8);
+	height: 350px;
+	width: 350px;
+	text-align: center;
+	border-radius: 100%;
+	border-width: 2px;
+	border-color: black;
+	border-style: solid;
+	margin-left: 14%;
+	box-shadow: 10px 10px 75px 30px rgba(0, 0, 0, 0.64);
+}
+
+.textBox2 {
+	background-color: rgb(200, 186, 182, 0.6);
+	height: 500px;
+	width: 500px;
+	text-align: center;
+	border-radius: 100%;
+	border-width: 2px;
+	border-color: black;
+	border-style: solid;
+	margin-top: 15%;
+	margin-left: 1%;
+	box-shadow: 10px 10px 75px 30px rgba(0, 0, 0, 0.64);
+}
+
+.text1 {
+	margin-top: 100px;
+	color: whitesmoke;
+	font-size: 40px;
+	padding: 8%;
+}
+
+.text2 {
+	margin-top: 100px;
+	color: whitesmoke;
+	font-size: 50px;
+	padding: 8%;
 }
