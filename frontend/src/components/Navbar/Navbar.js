@@ -16,9 +16,9 @@ const navbar = (props) => {
 					className='topNavLinks'
 					style={{ float: "left", textDecoration: "none" }}
 				>
-					<a className='appName' style={{ fontSize: "50px" }}>
+					<Link to='/' className='appName' style={{ fontSize: "50px" }}>
 						Pets Feeder
-					</a>
+					</Link>
 				</div>
 				<div className='topNavLinks'>
 					<Link to='/myPets'>My pets </Link>

@@ -1,0 +1,71 @@
+.boxForm {
+	background-color: rgb(200, 186, 182, 0.6);
+	width: 70%;
+	margin-left: 14%;
+	padding-top: 10%;
+	padding-bottom: 10%;
+	margin-top: 8%;
+	box-shadow: 10px 10px 75px 30px rgba(0, 0, 0, 0.64);
+	border-radius: 10px;
+}
+
+.formAddPet {
+	padding-top: 10%;
+	color: white;
+	font-size: 25px;
+	text-align: center;
+	text-shadow: 2px 2px black;
+}
+
+.addPetText {
+	font-size: 70px;
+	color: #333333;
+	text-align: center;
+	text-shadow: 2px 2px white;
+}
+
+.column {
+	float: center;
+}
+
+.left2 {
+	width: 40%;
+	text-align: left;
+}
+
+.right2 {
+	width: 60%;
+	border-left: 2px solid rgb(200, 186, 182, 0.6);
+	height: 600px;
+	position: absolute;
+	margin-left: 39%;
+	top: 15%;
+}
+
+input[type="text"] {
+	width: 40%;
+	padding: 8px 20px;
+	border: 1px solid #333333;
+	border-radius: 4px;
+	box-sizing: border-box;
+	outline: none;
+}
+
+input[type="submit"] {
+	background-color: #333333;
+	width: 65%;
+	height: 60px;
+	outline: none;
+	border-radius: 4px;
+	border-style: solid;
+	font-size: 30px;
+	color: #f4f1f0;
+	cursor: pointer;
+	box-shadow: 12px 15px 29px -15px rgba(0, 0, 0, 0.75);
+	border-color: white;
+	border-width: 1px;
+}
+
+input[type="submit"]:hover {
+	background-color: black;
+}
