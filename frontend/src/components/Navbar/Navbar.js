@@ -1,13 +1,5 @@
 import React from "react";
-import {
-	FaHome,
-	FaPaw,
-	FaTemperatureLow,
-	FaClock,
-	FaVideo,
-	FaQuestion,
-	FaCog,
-} from "react-icons/fa";
+import { FaCog } from "react-icons/fa";
 import { Route } from "react-router-dom";
 import { Link } from "react-router-dom";
 
@@ -24,12 +16,15 @@ const navbar = (props) => {
 					className='topNavLinks'
 					style={{ float: "left", textDecoration: "none" }}
 				>
-					<a className='appName'>Pets Feeder</a>
+					<a className='appName' style={{ fontSize: "50px" }}>
+						Pets Feeder
+					</a>
 				</div>
 				<div className='topNavLinks'>
-					<a href='#'>
-						<FaHome style={{ color: "white" }} />
-					</a>
+					<Link to='/myPets'>My pets </Link>
+					<Link to='#'>About </Link>
+					<Link to='#'>Settings</Link>
+					<Link to='#'>Log out</Link>
 				</div>
 			</div>
 		</Aux>

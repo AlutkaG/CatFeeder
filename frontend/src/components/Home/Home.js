@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import axios from "axios";
 
 import Aux from "../../hoc/Aux";
 
@@ -6,7 +7,21 @@ import feed from "../../img/homeColor.png";
 
 import "./Home.css";
 
-const home = (props) => {
+function Home() {
+	const [isClicked, setIsClicked] = useState(0);
+
+	useEffect(() => {
+		console.log(isClicked);
+		if (isClicked == 1) {
+			const fetchData = async () => {
+				const result = await axios("http://catfeeder.ddns.net/api/v1/activate");
+			};
+
+			fetchData();
+			setIsClicked(0);
+		}
+	});
+
 	return (
 		<Aux>
 			<div className='column right'>
@@ -22,9 +37,9 @@ const home = (props) => {
 			</div>
 			<div className='column left'>
 				<div className='textBox1'>
-					<div className='text1'>Are your pet hungry?</div>
+					<div className='text1'>Is your pet hungry?</div>
 				</div>
-				<button className='pressButton' />
+				<button className='pressButton' onClick={() => setIsClicked(1)} />
 			</div>
 			<div className='column center'>
 				<div className='textBox2'>
@@ -35,6 +50,6 @@ const home = (props) => {
 			</div>
 		</Aux>
 	);
-};
+}
 
-export default home;
+export default Home;

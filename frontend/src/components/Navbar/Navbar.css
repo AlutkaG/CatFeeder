@@ -49,6 +49,8 @@
 	text-decoration: none;
 	color: #fffbfc;
 	display: inline;
+	padding: 20px;
+	font-size: 30px;
 }
 
 .topNavLinks a:hover {
