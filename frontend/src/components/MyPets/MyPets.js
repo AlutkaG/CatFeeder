@@ -11,16 +11,16 @@ function MyPets() {
 	const [portion, setPortion] = useState("");
 	const [hours, setHours] = useState("");
 	const [minutes, setMinutes] = useState("");
+	const [nameArray, setNameArray] = useState([]); // tablica imion zwierząt
+	const [typeArray, setTypeArray] = useState([]); // tablica typów zwierząt (czy krolik, czy kot...)
+	const [portionArray, setPortionArray] = useState([]); // tablica porcji dla poszczegolnych zwierzat
+	const [hoursArray, setHoursArray] = useState([]); // tablica godzin, o ktorych ma byc serwowane jedzenie
+	const [minutesArray, setMinutesArray] = useState([]); // tablica minut, o ktorych ma byc serwowane jedzenie
+	const [isAdded, setIsAdded] = useState(0); // czy dodano nowy rekord: 0 - nie, 1 - tak
+	const [didIt, setDidIt] = useState(false); // czy zczytalo pierwszy raz przed dodaniem czegokolwiek baze danych
 
 	const handleSubmit = (event) => {
 		event.preventDefault();
-
-		const formData = new FormData();
-		formData.append("name", name);
-		formData.append("type", type);
-		formData.append("portion", portion);
-		formData.append("hours", hours);
-		formData.append("minutes", minutes);
 		let data = {
 			name: name,
 			type: type,
@@ -28,6 +28,7 @@ function MyPets() {
 			hours: hours,
 			minutes: minutes,
 		};
+		console.log(isAdded);
 		Axios.post("http://catfeeder.ddns.net/api/v1/addpet", data)
 			.then((res) => {
 				console.log(res);
@@ -36,7 +37,38 @@ function MyPets() {
 			.catch((error) => {
 				console.log(error.response);
 			});
+
+		setIsAdded(1);
 	};
+
+	useEffect(() => {
+		const fetchData = async () => {
+			const result = await Axios("http://catfeeder.ddns.net/api/v1/list");
+			console.log(result.data.length);
+
+			if (didIt == false) {
+				for (let i = 0; i < result.data.length; i++) {
+					nameArray.push(result.data[i].name);
+					typeArray.push(result.data[i].type);
+					portionArray.push(result.data[i].portion);
+					hoursArray.push(result.data[i].hours);
+					minutesArray.push(result.data[i].minutes);
+				}
+				setDidIt(true);
+			}
+			if (didIt == true && isAdded == 1) {
+				nameArray.push(name);
+				typeArray.push(type);
+				portionArray.push(portion);
+				hoursArray.push(hours);
+				minutesArray.push(minutes);
+				setIsAdded(0);
+			}
+			console.log(nameArray);
+		};
+
+		fetchData();
+	});
 
 	return (
 		<Aux>
