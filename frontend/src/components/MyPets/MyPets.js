@@ -3,14 +3,18 @@ import React, { useEffect, useState } from "react";
 import Aux from "../../hoc/Aux";
 
 import "./MyPets.css";
+import PetCard from "./MyPetsCard";
+
 import Axios from "axios";
 
 function MyPets() {
+	const [id, setId] = useState(0);
 	const [name, setName] = useState("");
 	const [type, setType] = useState("");
 	const [portion, setPortion] = useState("");
 	const [hours, setHours] = useState("");
 	const [minutes, setMinutes] = useState("");
+	const [idArray, setIdArray] = useState([]);
 	const [nameArray, setNameArray] = useState([]); // tablica imion zwierząt
 	const [typeArray, setTypeArray] = useState([]); // tablica typów zwierząt (czy krolik, czy kot...)
 	const [portionArray, setPortionArray] = useState([]); // tablica porcji dla poszczegolnych zwierzat
@@ -18,6 +22,8 @@ function MyPets() {
 	const [minutesArray, setMinutesArray] = useState([]); // tablica minut, o ktorych ma byc serwowane jedzenie
 	const [isAdded, setIsAdded] = useState(0); // czy dodano nowy rekord: 0 - nie, 1 - tak
 	const [didIt, setDidIt] = useState(false); // czy zczytalo pierwszy raz przed dodaniem czegokolwiek baze danych
+	const [infoArray, setInfoArray] = useState([]); // pelne informacje o zwierzakach zapisane w formie [name: 'jan', type: 'kowalski' ....]
+	const [isLoading, setIsLoading] = useState(false);
 
 	const handleSubmit = (event) => {
 		event.preventDefault();
@@ -28,46 +34,58 @@ function MyPets() {
 			hours: hours,
 			minutes: minutes,
 		};
-		console.log(isAdded);
 		Axios.post("http://catfeeder.ddns.net/api/v1/addpet", data)
 			.then((res) => {
 				console.log(res);
-				console.log(res.data);
 			})
 			.catch((error) => {
 				console.log(error.response);
 			});
 
 		setIsAdded(1);
+		setId(id + 1);
+		setIsLoading(false);
 	};
 
 	useEffect(() => {
 		const fetchData = async () => {
 			const result = await Axios("http://catfeeder.ddns.net/api/v1/list");
-			console.log(result.data.length);
 
 			if (didIt == false) {
 				for (let i = 0; i < result.data.length; i++) {
+					idArray.push(result.data[i].id);
 					nameArray.push(result.data[i].name);
 					typeArray.push(result.data[i].type);
 					portionArray.push(result.data[i].portion);
 					hoursArray.push(result.data[i].hours);
 					minutesArray.push(result.data[i].minutes);
+					infoArray.push(result.data[i]);
+					setId(result.data[result.data.length - 1].id);
 				}
 				setDidIt(true);
-			}
-			if (didIt == true && isAdded == 1) {
+			} else if (didIt == true && isAdded == 1) {
 				nameArray.push(name);
 				typeArray.push(type);
 				portionArray.push(portion);
 				hoursArray.push(hours);
 				minutesArray.push(minutes);
+
+				let data = {
+					hours: hours,
+					id: id,
+					minutes: minutes,
+					name: name,
+					portion: portion,
+					type: type,
+				};
+				infoArray.push(data);
 				setIsAdded(0);
 			}
-			console.log(nameArray);
 		};
-
-		fetchData();
+		if (!isLoading) {
+			fetchData();
+			setIsLoading(true);
+		}
 	});
 
 	return (
@@ -135,7 +153,9 @@ function MyPets() {
 					</form>
 				</div>
 			</div>
-			<div className='column right2'></div>
+			<div className='column right2'>
+				<PetCard info={infoArray} />
+			</div>
 		</Aux>
 	);
 }

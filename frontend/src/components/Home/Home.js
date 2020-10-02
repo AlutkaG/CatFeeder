@@ -11,7 +11,6 @@ function Home() {
 	const [isClicked, setIsClicked] = useState(0);
 
 	useEffect(() => {
-		console.log(isClicked);
 		if (isClicked == 1) {
 			const fetchData = async () => {
 				const result = await axios("http://catfeeder.ddns.net/api/v1/activate");
@@ -19,6 +18,7 @@ function Home() {
 
 			fetchData();
 			setIsClicked(0);
+			console.log(isClicked);
 		}
 	});
 

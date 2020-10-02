@@ -1,11 +1,10 @@
 .boxForm {
-	background-color: rgb(200, 186, 182, 0.6);
 	width: 70%;
 	margin-left: 14%;
 	padding-top: 10%;
 	padding-bottom: 10%;
-	margin-top: 8%;
-	box-shadow: 10px 10px 75px 30px rgba(0, 0, 0, 0.64);
+	margin-top: 2%;
+	box-shadow: 3px 9px 31px 1px rgba(0, 0, 0, 0.75);
 	border-radius: 10px;
 }
 
@@ -19,9 +18,9 @@
 
 .addPetText {
 	font-size: 70px;
-	color: #333333;
+	color: white;
 	text-align: center;
-	text-shadow: 2px 2px white;
+	text-shadow: 2px 2px black;
 }
 
 .column {
@@ -29,17 +28,21 @@
 }
 
 .left2 {
-	width: 40%;
+	width: 39%;
 	text-align: left;
+}
+
+.center2 {
+	border-left: 2px solid rgb(200, 186, 182, 0.6);
+	position: absolute;
+	margin-left: 39%;
+	top: 15%;
+	width: 1%;
 }
 
 .right2 {
 	width: 60%;
-	border-left: 2px solid rgb(200, 186, 182, 0.6);
-	height: 600px;
-	position: absolute;
-	margin-left: 39%;
-	top: 15%;
+	margin-top: 1%;
 }
 
 input[type="text"] {
@@ -68,4 +71,61 @@ input[type="submit"] {
 
 input[type="submit"]:hover {
 	background-color: black;
+}
+
+.petCard {
+	width: 70%;
+	height: 200px;
+	background-color: rgb(200, 186, 182, 0.5);
+	margin-bottom: 5%;
+	margin-left: 10%;
+	box-shadow: 3px 9px 31px 1px rgba(0, 0, 0, 0.75);
+	border-radius: 10px;
+	color: #333333;
+	padding-left: 5%;
+}
+
+p {
+	display: inline-block;
+}
+
+.keyWord {
+	font-size: 25px;
+	margin-right: 20px;
+	margin-left: 20px;
+}
+
+.propsWord {
+	font-size: 35px;
+	padding-top: 5px;
+	padding-bottom: 5px;
+	padding-left: 15px;
+	padding-right: 15px;
+	border-style: none none solid none;
+}
+
+.namePet {
+	font-size: 80px;
+	font-weight: bold;
+}
+
+.popup {
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	justify-content: center;
+	align-items: center;
+	top: 0;
+	left: 0;
+	display: flex;
+	background-color: rgba(0, 0, 0, 0.7);
+}
+.popup-inner {
+	position: absolute;
+	width: 30%;
+	height: 70%;
+	border-radius: 4px;
+	background-color: whitesmoke;
+	text-align: center;
+	box-shadow: 3px 9px 31px 1px rgba(0, 0, 0, 0.75);
 }

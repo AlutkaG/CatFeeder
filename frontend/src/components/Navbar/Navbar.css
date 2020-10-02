@@ -32,13 +32,14 @@
 }
 
 .topNav {
-	height: 80px;
+	height: 60px;
 	width: 100%;
 	position: fixed;
 	z-index: 1;
 	top: 0;
 	padding-top: 0px;
 	overflow-y: hidden;
+	background-color: #333333;
 }
 
 .topNavLinks {
