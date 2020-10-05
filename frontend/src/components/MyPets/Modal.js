@@ -1,19 +1,29 @@
 import React, { useState, useEffect } from "react";
 
+import Axios from "axios";
+
 const Modal = (props) => {
 	const pet = props.currentPet;
 
+	const [id, setId] = useState(0);
 	const [name, setName] = useState("");
 	const [type, setType] = useState("");
 	const [portion, setPortion] = useState("");
 	const [hours, setHours] = useState("");
 	const [minutes, setMinutes] = useState("");
-	const [info, setInfo] = useState("");
-	const [isLoading, setIsLoading] = useState(false);
 
 	const onClose = (e) => {
 		props.onClose && props.onClose(e);
 	};
+
+	useEffect(() => {
+		setId(pet.id);
+		setName(pet.name);
+		setType(pet.type);
+		setPortion(pet.portion);
+		setHours(pet.hours);
+		setMinutes(pet.minutes);
+	}, [pet.id, pet.name, pet.type, pet.portion, pet.hours, pet.minutes]);
 
 	if (!props.show) {
 		return null;
@@ -21,27 +31,64 @@ const Modal = (props) => {
 
 	const handleSave = () => {
 		const data = {
+			id: id,
 			name: name,
 			type: type,
 			portion: portion,
 			hours: hours,
 			minutes: minutes,
+			active: pet.active,
 		};
 
 		props.saveModal(data);
+		Axios.post("http://catfeeder.ddns.net/api/v1/update", data)
+			.then((res) => {
+				console.log(res);
+			})
+			.catch((error) => {
+				console.log(error.response);
+			});
 	};
 
-	console.log(name);
 	return (
 		<div className='popup'>
 			<div className='popup-inner'>
 				Name:{" "}
 				<input
+					value={name}
 					type='text'
-					placeholder={pet.name}
 					onChange={(e) => setName(e.target.value)}
 				/>
-				<button onClick={handleSave()}>Save</button>
+				<br />
+				Type:
+				<input
+					type='text'
+					value={type}
+					onChange={(e) => setType(e.target.value)}
+				/>
+				<br />
+				Portion (to dose):
+				<input
+					type='number'
+					value={portion}
+					onChange={(e) => setPortion(e.target.value)}
+				/>
+				<br />
+				Hours of feeding(of day):
+				<input
+					type='text'
+					value={hours}
+					onChange={(e) => setHours(e.target.value)}
+				/>
+				<br />
+				Minutes of feeding(of hour):
+				<input
+					type='text'
+					value={minutes}
+					onChange={(e) => setMinutes(e.target.value)}
+				/>
+				<br />
+				<button onClick={handleSave}>Save</button>
 				<button onClick={onClose}>Close</button>
 			</div>
 		</div>

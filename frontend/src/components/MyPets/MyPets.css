@@ -27,22 +27,35 @@
 	float: center;
 }
 
-.left2 {
-	width: 39%;
-	text-align: left;
+.columnLeftPet {
+	float: left;
+	width: 40%;
+	padding-top: 7%;
 }
 
-.center2 {
-	border-left: 2px solid rgb(200, 186, 182, 0.6);
-	position: absolute;
-	margin-left: 39%;
-	top: 15%;
-	width: 1%;
-}
-
-.right2 {
+.columnRightPet {
+	float: right;
 	width: 60%;
-	margin-top: 1%;
+	height: 100px;
+	padding-top: 8%;
+}
+
+.columnLeftCard {
+	float: left;
+	width: 70%;
+	height: 100px;
+}
+.columnRightCard {
+	float: right;
+	width: 30%;
+	height: 100px;
+	padding-top: 2%;
+}
+
+.row:after {
+	content: "";
+	display: table;
+	clear: both;
 }
 
 input[type="text"] {
@@ -75,38 +88,39 @@ input[type="submit"]:hover {
 
 .petCard {
 	width: 70%;
-	height: 200px;
-	background-color: rgb(200, 186, 182, 0.5);
+	height: 100px;
+	/*background-color: rgb(255, 255, 255, 0.2);*/
 	margin-bottom: 5%;
 	margin-left: 10%;
-	box-shadow: 3px 9px 31px 1px rgba(0, 0, 0, 0.75);
+	box-shadow: 3px 9px 31px 1px rgba(255, 255, 255, 0.75);
 	border-radius: 10px;
-	color: #333333;
+	color: whitesmoke;
 	padding-left: 5%;
+	border-color: white;
+	border-style: solid;
+	border-width: 1px;
+	padding-bottom: 1%;
 }
 
 p {
 	display: inline-block;
 }
-
-.keyWord {
-	font-size: 25px;
-	margin-right: 20px;
-	margin-left: 20px;
-}
-
-.propsWord {
-	font-size: 35px;
-	padding-top: 5px;
-	padding-bottom: 5px;
-	padding-left: 15px;
-	padding-right: 15px;
-	border-style: none none solid none;
+.cardButton {
+	border-style: solid;
+	border-width: 1px;
+	border-radius: 3px;
+	border-color: white;
+	color: whitesmoke;
+	width: 150px;
+	height: 20px;
+	margin-bottom: 3.5%;
+	font-weight: bold;
 }
 
 .namePet {
-	font-size: 80px;
-	font-weight: bold;
+	font-size: 90px;
+	text-shadow: 2px 2px black;
+	/*font-weight: bold;*/
 }
 
 .popup {

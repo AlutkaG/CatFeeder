@@ -1,10 +1,7 @@
 import React from "react";
-import { FaCog } from "react-icons/fa";
-import { Route } from "react-router-dom";
 import { Link } from "react-router-dom";
 
 import Aux from "../../hoc/Aux";
-import Temperature from "../Temperature/Temperature";
 
 import "./Navbar.css";
 

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import "./App.css";
 import Navbar from "./components/Navbar/Navbar";
@@ -6,8 +6,6 @@ import Home from "./components/Home/Home";
 import MyPets from "./components/MyPets/MyPets";
 
 function App() {
-	const [ala, setAla] = useState([{}]);
-
 	return (
 		<Router>
 			<div className='App'>
