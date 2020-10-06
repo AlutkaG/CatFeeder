@@ -14,7 +14,7 @@ function MyPets() {
 	const [portion, setPortion] = useState("");
 	const [hours, setHours] = useState("");
 	const [minutes, setMinutes] = useState("");
-	const [isActive, setIsActive] = useState(0);
+	const [isActive] = useState(0);
 	const [idArray, setIdArray] = useState([]);
 	const [nameArray, setNameArray] = useState([]); // tablica imion zwierząt
 	const [typeArray, setTypeArray] = useState([]); // tablica typów zwierząt (czy krolik, czy kot...)
@@ -27,24 +27,21 @@ function MyPets() {
 	const [infoArray, setInfoArray] = useState([]); // pelne informacje o zwierzakach zapisane w formie [name: 'jan', type: 'kowalski' ....]
 	const [isLoading, setIsLoading] = useState(false);
 	const [isDelete, setIsDelete] = useState(false);
+	const [isSave, setIsSave] = useState(false);
+	const [isChangeActive, setIsChangeActive] = useState(false);
+	const [isEnabled, setIsEnabled] = useState(false);
 
 	const handleSubmit = (event) => {
 		event.preventDefault();
-		let pom;
-		if (id === 0) {
-			pom = 1;
-		} else {
-			pom = 0;
-		}
+
 		let data = {
 			name: name,
 			type: type,
 			portion: portion,
 			hours: hours,
 			minutes: minutes,
-			active: pom,
+			active: 0,
 		};
-		console.log(data);
 		Axios.post("http://catfeeder.ddns.net/api/v1/addpet", data)
 			.then((res) => {
 				console.log(res);
@@ -63,7 +60,7 @@ function MyPets() {
 		const fetchData = async () => {
 			const result = await Axios("http://catfeeder.ddns.net/api/v1/list");
 
-			if (didIt === false || isDelete === true) {
+			if (didIt === false) {
 				for (let i = 0; i < result.data.length; i++) {
 					idArray.push(result.data[i].id);
 					nameArray.push(result.data[i].name);
@@ -77,9 +74,6 @@ function MyPets() {
 					setId(result.data[result.data.length - 1].id);
 				}
 				setDidIt(true);
-				setIsDelete(false);
-				console.log("usuniete");
-				console.log(infoArray);
 			} else if (didIt === true && isAdded === 1) {
 				nameArray.push(name);
 				typeArray.push(type);
@@ -102,31 +96,90 @@ function MyPets() {
 			}
 		};
 
-		if (!isLoading || isDelete) {
+		if (!isLoading || isDelete || isSave || isChangeActive || isEnabled) {
 			fetchData();
 			setIsLoading(true);
-			console.log("is" + isDelete);
+			setIsDelete(false);
+			setIsSave(false);
+			setIsChangeActive(false);
+			setIsEnabled(false);
 		}
-	});
+	}, [
+		isLoading,
+		isDelete,
+		isSave,
+		isChangeActive,
+		isEnabled,
+		didIt,
+		isAdded,
+		idArray,
+		nameArray,
+		typeArray,
+		portionArray,
+		hoursArray,
+		minutesArray,
+		isActiveArray,
+		infoArray,
+		name,
+		type,
+		portion,
+		hours,
+		minutes,
+		id,
+		isActive,
+	]);
 
 	const deletePet = (index) => {
-		let tmpinfo = infoArray.splice(0, infoArray.length);
-		let tmpid = idArray.splice(0, idArray.length);
-		let tmpname = nameArray.splice(0, nameArray.length);
-		let tmptype = typeArray.splice(0, typeArray.length);
-		let tmpportion = portionArray.splice(0, portionArray.length);
-		let tmphours = hoursArray.splice(0, hoursArray.length);
-		let tmpminutes = minutesArray.splice(0, minutesArray.length);
-		let tmpisactive = isActiveArray.splice(0, isActiveArray.length);
-		setInfoArray(tmpinfo);
-		setIdArray(tmpid);
-		setNameArray(tmpname);
-		setTypeArray(tmptype);
-		setPortionArray(tmpportion);
-		setHoursArray(tmphours);
-		setMinutesArray(tmpminutes);
-		setIsActiveArray(tmpisactive);
+		let _info = infoArray;
+		let _id = idArray;
+		let _name = nameArray;
+		let _type = typeArray;
+		let _portion = portionArray;
+		let _hours = hoursArray;
+		let _minutes = minutesArray;
+		let _isActive = isActiveArray;
+		_info.splice(index, 1);
+		_name.splice(index, 1);
+		_type.splice(index, 1);
+		_portion.splice(index, 1);
+		_hours.splice(index, 1);
+		_minutes.splice(index, 1);
+		_isActive.splice(index, 1);
+		setInfoArray(_info);
+		setIdArray(_id);
+		setNameArray(_name);
+		setTypeArray(_type);
+		setPortionArray(_portion);
+		setHoursArray(_hours);
+		setMinutesArray(_minutes);
+		setIsActiveArray(_isActive);
 		setIsDelete(true);
+	};
+
+	const savePet = (id, pet) => {
+		infoArray[id] = pet;
+		setIsSave(true);
+	};
+
+	const activeHandle = (id) => {
+		let info = infoArray;
+		for (let i = 0; i < info.length; i++) {
+			if (i == id) {
+				info[i].active = 1;
+			} else {
+				info[i].active = 0;
+			}
+		}
+		setInfoArray(info);
+		console.log("change");
+		setIsChangeActive(true);
+	};
+
+	const disabledHandle = (id) => {
+		let info = infoArray;
+		info[id].active = 0;
+		setInfoArray(info);
+		console.log("disabled");
 	};
 
 	return (
@@ -139,6 +192,7 @@ function MyPets() {
 							<label>
 								Name: <span />
 								<input
+									className='input'
 									type='text'
 									placeholder='Name...'
 									name='name'
@@ -150,6 +204,7 @@ function MyPets() {
 							<label>
 								Type: <span />
 								<input
+									className='input'
 									type='text'
 									placeholder='Type...'
 									name='type'
@@ -161,6 +216,7 @@ function MyPets() {
 							<label>
 								Dose: <span />
 								<input
+									className='input'
 									type='text'
 									placeholder='Portion (1 portion -> 1 rotation of the servo)...'
 									name='portion'
@@ -172,6 +228,7 @@ function MyPets() {
 							<label>
 								Hour: <span />
 								<input
+									className='input'
 									type='text'
 									placeholder='Hour (1-24)...'
 									name='hours'
@@ -183,6 +240,7 @@ function MyPets() {
 							<label>
 								Minutes: <span />
 								<input
+									className='input'
 									type='text'
 									placeholder='Minutes (1-59)...'
 									name='minutes'
@@ -196,7 +254,13 @@ function MyPets() {
 					</div>
 				</div>
 				<div className='columnRightPet'>
-					<PetCard info={infoArray} delete={deletePet} />
+					<PetCard
+						info={infoArray}
+						delete={deletePet}
+						save={savePet}
+						active={activeHandle}
+						disabled={disabledHandle}
+					/>
 				</div>
 			</div>
 		</Aux>

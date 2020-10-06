@@ -58,7 +58,7 @@
 	clear: both;
 }
 
-input[type="text"] {
+.input {
 	width: 40%;
 	padding: 8px 20px;
 	border: 1px solid #333333;
@@ -68,7 +68,7 @@ input[type="text"] {
 }
 
 input[type="submit"] {
-	background-color: #333333;
+	background-color: black;
 	width: 65%;
 	height: 60px;
 	outline: none;
@@ -137,9 +137,66 @@ p {
 .popup-inner {
 	position: absolute;
 	width: 30%;
-	height: 70%;
+	height: 50%;
 	border-radius: 4px;
-	background-color: whitesmoke;
+	background-color: #404040;
+	color: white;
 	text-align: center;
 	box-shadow: 3px 9px 31px 1px rgba(0, 0, 0, 0.75);
+	padding-top: 2%;
+}
+
+.modalText {
+	padding-bottom: 15%;
+}
+
+.modalInput {
+	padding-bottom: 2%;
+}
+
+.inputModal {
+	width: 80%;
+	padding: 8px 20px;
+	border: 1px solid #333333;
+	border-radius: 4px;
+	box-sizing: border-box;
+	outline: none;
+}
+
+.columnLeftModal {
+	padding-top: 1%;
+	float: left;
+	text-align: right;
+	width: 45%;
+}
+
+.columnRightModal {
+	float: right;
+	width: 55%;
+}
+
+.buttonSave {
+	background-color: green;
+	border-style: solid;
+	border-width: 1px;
+	border-radius: 3px;
+	border-color: white;
+	color: whitesmoke;
+	width: 150px;
+	height: 50px;
+	margin-right: 5%;
+	font-size: 20px;
+}
+
+.buttonClose {
+	background-color: black;
+	border-style: solid;
+	border-width: 1px;
+	border-radius: 3px;
+	border-color: white;
+	color: whitesmoke;
+	font-size: 20px;
+	width: 150px;
+	height: 50px;
+	margin-bottom: 3.5%;
 }

@@ -8,21 +8,25 @@ import Axios from "axios";
 const PetCard = (props) => {
 	const [isShow, setIsShow] = useState(false);
 	const [currentPet, setCurrentPet] = useState("");
-	const [idActivePrev, setIdActivePrev] = useState(0);
-	const [indexNow, setIndexNow] = useState(0);
-	const [indexPrev, setIndexPrev] = useState(0);
-	const [info, setInfo] = useState(props.info);
-
+	const [idActivePrev, setIdActivePrev] = useState(-1);
+	const [indexNow, setIndexNow] = useState(-1);
+	const [petIdPrev, setPetIdPrev] = useState(0);
+	const [isClicked, setIsClicked] = useState(false);
+	const [isLoading, setIsLoading] = useState(false);
+	const [isChangeClick, setIsChangeClick] = useState(false);
+	const info = props.info;
 	const showModal = (e) => {
 		setIsShow(!isShow);
 	};
 
-	const actualPet = (pet) => {
+	const actualPet = (pet, index) => {
 		setCurrentPet(pet);
+		setIndexNow(index);
 	};
 
 	const saveModal = (pet) => {
-		info[currentPet.id - 1] = pet;
+		info[indexNow] = pet;
+		props.save(indexNow, pet);
 	};
 
 	useEffect(() => {
@@ -30,25 +34,58 @@ const PetCard = (props) => {
 			const result = await Axios(
 				"http://catfeeder.ddns.net/api/v1/getActiveId"
 			);
-			setIdActivePrev(result.data.id);
+			console.log(info.length);
+			for (let i = 0; i < info.length; i++) {
+				console.log(info[i]);
+				if (info[i].active == 1) {
+					setIdActivePrev(i);
+					console.log("ej");
+				}
+			}
+			setPetIdPrev(result.data.id);
+			console.log("id prev2: " + idActivePrev);
+			console.log("id now2: " + indexNow);
 		};
-		fetchData();
-	});
+
+		if (!isLoading || isClicked || isChangeClick) {
+			fetchData();
+			console.log("changeeeeeeee");
+			setIsClicked(false);
+			setIsLoading(true);
+			setIsChangeClick(false);
+		}
+	}, [isLoading, isClicked, isChangeClick]);
 	const changeActive = (id, index) => {
-		if (idActivePrev != id) {
+		if (indexNow != index && !isChangeClick) {
 			const data = {
-				idPrev: idActivePrev,
-				idNow: id,
+				idEn: id,
 			};
+
 			setIndexNow(index);
-			Axios.post("http://catfeeder.ddns.net/api/v1/changeActive", data)
+			Axios.post("http://catfeeder.ddns.net/api/v1/enabled", data)
 				.then((res) => {
 					console.log(res);
 				})
 				.catch((error) => {
 					console.log(error.response);
 				});
-			info[index].active = 0;
+			props.active(index);
+			setIsChangeClick(true);
+		} else if (indexNow == index && !isChangeClick) {
+			const data = {
+				idDis: id,
+			};
+
+			setIndexNow(-1);
+			Axios.post("http://catfeeder.ddns.net/api/v1/disabled", data)
+				.then((res) => {
+					console.log(res);
+				})
+				.catch((error) => {
+					console.log(error.response);
+				});
+			props.disabled(index);
+			setIsChangeClick(true);
 		}
 	};
 
@@ -63,9 +100,7 @@ const PetCard = (props) => {
 			.catch((error) => {
 				console.log(error.response);
 			});
-		console.log(info);
 		props.delete(index);
-		console.log("po" + info);
 	};
 
 	const listPets = info.map((pet, index) => (
@@ -92,7 +127,7 @@ const PetCard = (props) => {
 						style={{ backgroundColor: "#006699" }}
 						onClick={(e) => {
 							showModal();
-							actualPet(pet);
+							actualPet(pet, index);
 						}}
 					>
 						Edit

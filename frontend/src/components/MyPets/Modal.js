@@ -6,7 +6,7 @@ const Modal = (props) => {
 	const pet = props.currentPet;
 
 	const [id, setId] = useState(0);
-	const [name, setName] = useState("");
+	const [name, setName] = useState(pet.name);
 	const [type, setType] = useState("");
 	const [portion, setPortion] = useState("");
 	const [hours, setHours] = useState("");
@@ -53,43 +53,68 @@ const Modal = (props) => {
 	return (
 		<div className='popup'>
 			<div className='popup-inner'>
-				Name:{" "}
-				<input
-					value={name}
-					type='text'
-					onChange={(e) => setName(e.target.value)}
-				/>
-				<br />
-				Type:
-				<input
-					type='text'
-					value={type}
-					onChange={(e) => setType(e.target.value)}
-				/>
-				<br />
-				Portion (to dose):
-				<input
-					type='number'
-					value={portion}
-					onChange={(e) => setPortion(e.target.value)}
-				/>
-				<br />
-				Hours of feeding(of day):
-				<input
-					type='text'
-					value={hours}
-					onChange={(e) => setHours(e.target.value)}
-				/>
-				<br />
-				Minutes of feeding(of hour):
-				<input
-					type='text'
-					value={minutes}
-					onChange={(e) => setMinutes(e.target.value)}
-				/>
-				<br />
-				<button onClick={handleSave}>Save</button>
-				<button onClick={onClose}>Close</button>
+				<div style={{ fontSize: "50px", paddingBottom: "5%" }}>Edit</div>
+				<div className='row'>
+					<div className='columnLeftModal'>
+						<div className='modalText'>Name: </div>
+						<div className='modalText'>Type:</div>
+						<div className='modalText'>Portion (to dose):</div>
+						<div className='modalText'>Hours of feeding(of day):</div>
+						<div className='modalText'>Minutes of feeding(of hour):</div>
+					</div>
+					<div className='columnRightModal'>
+						<div className='modalInput'>
+							<input
+								className='inputModal'
+								value={name}
+								type='text'
+								onChange={(e) => setName(e.target.value)}
+							/>
+						</div>
+						<br />
+						<div className='modalInput'>
+							<input
+								className='inputModal'
+								type='text'
+								value={type}
+								onChange={(e) => setType(e.target.value)}
+							/>
+						</div>
+						<br />
+						<div className='modalInput'>
+							<input
+								className='inputModal'
+								type='text'
+								value={portion}
+								onChange={(e) => setPortion(e.target.value)}
+							/>
+						</div>
+						<br />
+						<div className='modalInput'>
+							<input
+								className='inputModal'
+								type='text'
+								value={hours}
+								onChange={(e) => setHours(e.target.value)}
+							/>
+						</div>
+						<br />
+						<div className='modalInput'>
+							<input
+								className='inputModal'
+								type='text'
+								value={minutes}
+								onChange={(e) => setMinutes(e.target.value)}
+							/>
+						</div>
+					</div>
+				</div>
+				<button className='buttonSave' onClick={handleSave}>
+					Save
+				</button>
+				<button className='buttonClose' onClick={onClose}>
+					Close
+				</button>
 			</div>
 		</div>
 	);
