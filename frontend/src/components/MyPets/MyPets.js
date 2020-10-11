@@ -1,11 +1,52 @@
 import React, { useEffect, useState } from "react";
+import { Formik, Form, Field } from "formik";
+import * as Yup from "yup";
+import Axios from "axios";
+import Select from "react-select";
 
 import Aux from "../../hoc/Aux";
 
 import "./MyPets.css";
 import PetCard from "./MyPetsCard";
 
-import Axios from "axios";
+const AddPetSchema = Yup.object().shape({
+	name: Yup.string()
+		.min(2, "Too short!")
+		.max(8, "Too long!")
+		.required("Required"),
+
+	portion: Yup.number()
+		.min(1, "Minimum 1 serving!")
+		.max(6, "Maximum 6 servings!")
+		.required("Required!"),
+	hours: Yup.array().of(Yup.number().min(1, "Minimum 1").max(23, "Maximum 23")),
+	minutes: Yup.array().of(Yup.number().min(1).max(59)),
+});
+
+const options = [
+	{ value: "cat", label: "Cat" },
+	{ value: "dog", label: "Dog" },
+	{ value: "rabbit", label: "Rabbit" },
+	{ value: "guinea pig", label: "Guinea Pig" },
+	{ value: "hamster", label: "Hamster" },
+];
+
+const selectStyles = {
+	control: (style) => ({
+		...style,
+		outline: "none",
+	}),
+	option: (provided, state) => ({
+		...provided,
+		borderBottom: "1px ",
+		color: state.isSelected ? "black" : "#333333",
+		backgroundColor: "white",
+		"&:hover": {
+			backgroundColor: "#c8bab6",
+		},
+		padding: 10,
+	}),
+};
 
 function MyPets() {
 	const [id, setId] = useState(0);
@@ -32,14 +73,18 @@ function MyPets() {
 	const [isEnabled, setIsEnabled] = useState(false);
 
 	const handleSubmit = (event) => {
-		event.preventDefault();
-
+		setName(event.name);
+		setType(event.type);
+		setPortion(event.portion);
+		setHours(event.hours);
+		setMinutes(event.minutes);
+		console.log(event.type);
 		let data = {
-			name: name,
-			type: type,
-			portion: portion,
-			hours: hours,
-			minutes: minutes,
+			name: event.name,
+			type: event.type,
+			portion: event.portion,
+			hours: event.hours,
+			minutes: event.minutes,
 			active: 0,
 		};
 		Axios.post("http://catfeeder.ddns.net/api/v1/addpet", data)
@@ -182,75 +227,112 @@ function MyPets() {
 		console.log("disabled");
 	};
 
+	const handleTypeChange = (selectedType) => {
+		setType(selectedType.value);
+		console.log(selectedType.value);
+	};
 	return (
 		<Aux>
 			<div className='row'>
 				<div className='columnLeftPet'>
 					<div className='boxForm'>
 						<div className='addPetText'>Add Pet</div>
-						<form className='formAddPet' onSubmit={handleSubmit}>
-							<label>
-								Name: <span />
-								<input
-									className='input'
-									type='text'
-									placeholder='Name...'
-									name='name'
-									onChange={(e) => setName(e.target.value)}
-									style={{ marginLeft: "6%", marginBottom: "4%" }}
-								/>
-							</label>
-							<br />
-							<label>
-								Type: <span />
-								<input
-									className='input'
-									type='text'
-									placeholder='Type...'
-									name='type'
-									onChange={(e) => setType(e.target.value)}
-									style={{ marginLeft: "8%", marginBottom: "4%" }}
-								/>
-							</label>
-							<br />
-							<label>
-								Dose: <span />
-								<input
-									className='input'
-									type='text'
-									placeholder='Portion (1 portion -> 1 rotation of the servo)...'
-									name='portion'
-									onChange={(e) => setPortion(e.target.value)}
-									style={{ marginLeft: "7%", marginBottom: "4%" }}
-								/>
-							</label>
-							<br />
-							<label>
-								Hour: <span />
-								<input
-									className='input'
-									type='text'
-									placeholder='Hour (1-24)...'
-									name='hours'
-									onChange={(e) => setHours(e.target.value)}
-									style={{ marginLeft: "7%", marginBottom: "4%" }}
-								/>
-							</label>
-							<br />
-							<label>
-								Minutes: <span />
-								<input
-									className='input'
-									type='text'
-									placeholder='Minutes (1-59)...'
-									name='minutes'
-									onChange={(e) => setMinutes(e.target.value)}
-									style={{ marginLeft: "1%", marginBottom: "7%" }}
-								/>
-							</label>
-							<br />
-							<input type='submit' value='Add Pet' />
-						</form>
+						<Formik
+							initialValues={{
+								name: "",
+								type: "",
+								portion: "",
+								hours: [],
+								minutes: [],
+							}}
+							validationSchema={AddPetSchema}
+							onSubmit={(values) => {
+								handleSubmit(values);
+							}}
+						>
+							{({ errors, touched, handleChange }) => (
+								<Form className='formAddPet'>
+									<div className='row'>
+										<div className='columnLeftFormSelect'>
+											<div style={{ paddingBottom: "1%" }}>Name: </div>
+											<br /> <div style={{ paddingBottom: "1%" }}>
+												Type:
+											</div>{" "}
+											<br /> <div style={{ paddingBottom: "1%" }}>Portion:</div>{" "}
+											<br /> <div style={{ paddingBottom: "1%" }}>Hours:</div>{" "}
+											<br />{" "}
+											<div style={{ paddingBottom: "1%" }}>Minutes: </div>{" "}
+										</div>
+										<div className='columnRightFormSelect'>
+											<Field
+												className='input'
+												type='text'
+												placeholder='Name...'
+												name='name'
+											/>
+											<div style={{ fontSize: "15px", color: "red" }}>
+												{errors.name && touched.name ? (
+													<div>{errors.name}</div>
+												) : null}
+											</div>
+											<Select
+												placeholder='Type...'
+												options={options}
+												onChange={(select) => {
+													handleTypeChange(select);
+													handleChange("type")(select.value);
+												}}
+												styles={selectStyles}
+												name='type'
+												className='inputSelect'
+											/>
+											<Field
+												className='input'
+												type='text'
+												placeholder='Portion (1 portion -> 1 rotation of the servo)...'
+												name='portion'
+											/>
+											<div style={{ fontSize: "15px", color: "red" }}>
+												{errors.portion && touched.portion ? (
+													<div>{errors.portion}</div>
+												) : null}
+											</div>
+
+											<Field
+												className='input'
+												type='text'
+												placeholder='Hour (1-24)...'
+												name='hours'
+											/>
+											<div style={{ fontSize: "15px", color: "red" }}>
+												{errors.hours && touched.hours ? (
+													<div>{errors.hours}</div>
+												) : null}
+											</div>
+
+											<Field
+												className='input'
+												type='text'
+												placeholder='Minutes (1-59)...'
+												name='minutes'
+											/>
+											<div style={{ fontSize: "15px", color: "red" }}>
+												{errors.minutes && touched.minutes ? (
+													<div>{errors.minutes}</div>
+												) : null}
+											</div>
+										</div>
+
+										{/* 	<div style={{ fontSize: "15px", color: "red" }}>
+										{errors.type && touched.type ? (
+											<div>{errors.type}</div>
+										) : null} */}
+										{/* </div> */}
+									</div>
+									<input type='submit' value='Add Pet' />
+								</Form>
+							)}
+						</Formik>
 					</div>
 				</div>
 				<div className='columnRightPet'>

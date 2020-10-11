@@ -23,8 +23,8 @@ function Home() {
 	});
 
 	return (
-		<Aux>
-			<div className='column right'>
+		<div className='row'>
+			<div className='columnRightHome'>
 				<img
 					src={feed}
 					alt='Pets'
@@ -33,22 +33,22 @@ function Home() {
 						boxShadow: "10px 10px 75px 30px rgba(0, 0, 0, 0.64)",
 						borderRadius: "100%",
 					}}
-				></img>
+				/>
 			</div>
-			<div className='column left'>
+			<div className='columnLeftHome'>
 				<div className='textBox1'>
 					<div className='text1'>Is your pet hungry?</div>
 				</div>
 				<button className='pressButton' onClick={() => setIsClicked(1)} />
 			</div>
-			<div className='column center'>
+			<div className='columnCenterHome'>
 				<div className='textBox2'>
 					<div className='text2'>
 						You can feed your pet by clicking on the button!
 					</div>
 				</div>
 			</div>
-		</Aux>
+		</div>
 	);
 }
 
