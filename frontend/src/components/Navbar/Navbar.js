@@ -20,8 +20,6 @@ const navbar = (props) => {
 				<div className='topNavLinks'>
 					<Link to='/myPets'>My pets </Link>
 					<Link to='#'>About </Link>
-					<Link to='#'>Settings</Link>
-					<Link to='#'>Log out</Link>
 				</div>
 			</div>
 		</Aux>

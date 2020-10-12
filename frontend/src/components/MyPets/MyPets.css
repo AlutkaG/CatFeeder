@@ -6,6 +6,7 @@
 	margin-top: 2%;
 	box-shadow: 3px 9px 31px 1px rgba(0, 0, 0, 0.75);
 	border-radius: 10px;
+	background-color: #262626;
 }
 
 .formAddPet {
@@ -103,16 +104,16 @@ input[type="submit"]:hover {
 .petCard {
 	width: 70%;
 	height: 100px;
-	/*background-color: rgb(255, 255, 255, 0.2);*/
+	background-color: #262626;
 	margin-bottom: 5%;
 	margin-left: 10%;
-	box-shadow: 3px 9px 31px 1px rgba(255, 255, 255, 0.75);
-	border-radius: 10px;
+	box-shadow: 3px 9px 31px 1px rgba(0, 0, 0, 0.75);
+	border-radius: 4px;
 	color: whitesmoke;
 	padding-left: 5%;
-	border-color: white;
-	border-style: solid;
-	border-width: 1px;
+	/* border-color: white; */
+	/* border-style: solid;
+	border-width: 1px; */
 	padding-bottom: 1%;
 }
 
