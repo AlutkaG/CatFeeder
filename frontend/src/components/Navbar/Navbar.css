@@ -1,34 +1,7 @@
-.sideNav {
-	height: 100%;
-	width: 20%;
-	position: fixed;
-	z-index: 1;
-	top: 0;
-	left: 0;
-	background-color: #af7a6d;
-	overflow-x: hidden;
-	padding-top: 50px;
-	text-align: center;
-	box-shadow: 28px 0px 63px -55px rgba(0, 0, 0, 0.66);
-}
-
-.sideNavLinks {
-	padding-top: 70px;
-	text-align: left;
-	padding-left: 70px;
-}
-
-.sideNavLinks a {
-	text-decoration: none;
-	font-size: 30px;
-	color: #fffbfc;
-	display: block;
-	padding-bottom: 20px;
-}
-
-.sideNavLinks a:hover {
-	color: white;
-	font-weight: bold;
+.row:after {
+	content: "";
+	display: table;
+	clear: both;
 }
 
 .topNav {
@@ -39,22 +12,35 @@
 	top: 0;
 	padding-top: 0px;
 	overflow-y: hidden;
-	background-color: #333333;
+	background-color: #262626;
+	border-color: rgb(77, 77, 77);
+	border-style: none none solid none;
+	border-width: 1px;
 }
 
-.topNavLinks {
+.topNavLinksLeft {
+	width: 20%;
+	float: left;
+}
+
+.topNavLinksCenter {
+	width: 50%;
+	float: left;
+}
+
+.topNavLinksRight {
 	text-align: right;
 }
 
-.topNavLinks a {
+.topNavLinksRight a {
 	text-decoration: none;
 	color: #fffbfc;
-	display: inline;
-	padding: 20px;
+	display: inline-block;
 	font-size: 30px;
+	padding-right: 40px;
 }
 
-.topNavLinks a:hover {
+.topNavLinksRight a:hover {
 	color: white;
 	cursor: pointer;
 }

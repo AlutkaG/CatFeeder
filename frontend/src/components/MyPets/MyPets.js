@@ -13,14 +13,18 @@ const AddPetSchema = Yup.object().shape({
 	name: Yup.string()
 		.min(2, "Too short!")
 		.max(8, "Too long!")
-		.required("Required"),
-
+		.required("Please enter the name"),
+	type: Yup.string().required("Please enter the type"),
 	portion: Yup.number()
 		.min(1, "Minimum 1 serving!")
 		.max(6, "Maximum 6 servings!")
-		.required("Required!"),
-	hours: Yup.array().of(Yup.number().min(1, "Minimum 1").max(23, "Maximum 23")),
-	minutes: Yup.array().of(Yup.number().min(1).max(59)),
+		.required("Please enter the portion"),
+	hours: Yup.array()
+		.of(Yup.number().min(0, "Minimum 0").max(23, "Maximum 23"))
+		.required("Please enter the hours"),
+	minutes: Yup.array()
+		.of(Yup.number().min(0, "Minimum 0").max(59, "Maximum 59"))
+		.required("Please enter the minutes"),
 });
 
 const options = [
@@ -270,9 +274,16 @@ function MyPets() {
 												placeholder='Name...'
 												name='name'
 											/>
-											<div style={{ fontSize: "15px", color: "red" }}>
+											<div
+												style={{
+													fontSize: "15px",
+													color: "red",
+												}}
+											>
 												{errors.name && touched.name ? (
-													<div>{errors.name}</div>
+													<div style={{ marginTop: "-6%", marginBottom: "2%" }}>
+														{errors.name}
+													</div>
 												) : null}
 											</div>
 											<Select
@@ -286,15 +297,32 @@ function MyPets() {
 												name='type'
 												className='inputSelect'
 											/>
+											<div
+												style={{
+													fontSize: "15px",
+													color: "red",
+												}}
+											>
+												{errors.type && touched.type ? (
+													<div style={{ marginTop: "-6%" }}>{errors.type}</div>
+												) : null}{" "}
+											</div>
 											<Field
 												className='input'
 												type='text'
 												placeholder='Portion (1 portion -> 1 rotation of the servo)...'
 												name='portion'
 											/>
-											<div style={{ fontSize: "15px", color: "red" }}>
+											<div
+												style={{
+													fontSize: "15px",
+													color: "red",
+												}}
+											>
 												{errors.portion && touched.portion ? (
-													<div>{errors.portion}</div>
+													<div style={{ marginTop: "-6%" }}>
+														{errors.portion}
+													</div>
 												) : null}
 											</div>
 
@@ -304,9 +332,14 @@ function MyPets() {
 												placeholder='Hour (1-24)...'
 												name='hours'
 											/>
-											<div style={{ fontSize: "15px", color: "red" }}>
+											<div
+												style={{
+													fontSize: "15px",
+													color: "red",
+												}}
+											>
 												{errors.hours && touched.hours ? (
-													<div>{errors.hours}</div>
+													<div style={{ marginTop: "-6%" }}>{errors.hours}</div>
 												) : null}
 											</div>
 
@@ -316,18 +349,19 @@ function MyPets() {
 												placeholder='Minutes (1-59)...'
 												name='minutes'
 											/>
-											<div style={{ fontSize: "15px", color: "red" }}>
+											<div
+												style={{
+													fontSize: "15px",
+													color: "red",
+												}}
+											>
 												{errors.minutes && touched.minutes ? (
-													<div>{errors.minutes}</div>
+													<div style={{ marginTop: "-6%", marginBottom: "2%" }}>
+														{errors.minutes}
+													</div>
 												) : null}
 											</div>
 										</div>
-
-										{/* 	<div style={{ fontSize: "15px", color: "red" }}>
-										{errors.type && touched.type ? (
-											<div>{errors.type}</div>
-										) : null} */}
-										{/* </div> */}
 									</div>
 									<input type='submit' value='Add Pet' />
 								</Form>
@@ -342,6 +376,9 @@ function MyPets() {
 						save={savePet}
 						active={activeHandle}
 						disabled={disabledHandle}
+						schema={AddPetSchema}
+						options={options}
+						style={selectStyles}
 					/>
 				</div>
 			</div>

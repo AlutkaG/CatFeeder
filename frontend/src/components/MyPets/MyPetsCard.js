@@ -15,7 +15,7 @@ const PetCard = (props) => {
 	const [isLoading, setIsLoading] = useState(false);
 	const [isChangeClick, setIsChangeClick] = useState(false);
 	const info = props.info;
-	const showModal = (e) => {
+	const showModal = () => {
 		setIsShow(!isShow);
 	};
 
@@ -154,6 +154,9 @@ const PetCard = (props) => {
 				show={isShow}
 				currentPet={currentPet}
 				saveModal={saveModal}
+				schema={info.schema}
+				options={info.options}
+				style={info.style}
 			/>
 		</div>
 	);

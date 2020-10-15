@@ -1,77 +1,71 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import { FaCircle } from "react-icons/fa";
+import axios from "axios";
 
 import Aux from "../../hoc/Aux";
 
 import "./Navbar.css";
 
-const navbar = (props) => {
+const Navbar = (props) => {
+	const [red, setRed] = useState(0);
+	const [blue, setBlue] = useState(0);
+
+	useEffect(() => {
+		const fetchData = async () => {
+			const resultRed = await axios("http://catfeeder.ddns.net/api/v1/red");
+			setRed(resultRed.data.red);
+			const resultBlue = await axios("http://catfeeder.ddns.net/api/v1/blue");
+			setBlue(resultBlue.data.blue);
+		};
+		const interval = setInterval(() => {
+			fetchData();
+		}, 1000);
+		return () => clearInterval(interval);
+	}, []);
 	return (
 		<Aux>
 			<div className='topNav'>
-				<div
-					className='topNavLinks'
-					style={{ float: "left", textDecoration: "none" }}
-				>
-					<Link to='/' className='appName' style={{ fontSize: "50px" }}>
-						Pets Feeder
-					</Link>
-				</div>
-				<div className='topNavLinks'>
-					<Link to='/myPets'>My pets </Link>
-					<Link to='#'>About </Link>
-				</div>
-			</div>
-		</Aux>
-		/*
-		<Aux>
-			<div className='sideNav'>
-				<p className='appName'>Pet Feeder</p>
-				<div className='sideNavLinks'>
-					<a href='/'>
-						<FaHome style={{ paddingRight: "20px", color: " #6E0D25" }} />
-						Home
-					</a>
-					<a href='/'>
-						<FaPaw style={{ paddingRight: "20px", color: " #6E0D25" }} />
-						My pets
-					</a>
-					<Link to='/temperature'>
-						<FaTemperatureLow
-							style={{ paddingRight: "20px", color: " #6E0D25" }}
-						/>
-						Temperature
-					</Link>
-					<a href='/'>
-						<FaClock style={{ paddingRight: "20px", color: " #6E0D25" }} />
-						Dose
-					</a>
-					<a href='/'>
-						<FaVideo style={{ paddingRight: "20px", color: " #6E0D25" }} />
-						Camera
-					</a>
-					<a href='/'>
-						<FaQuestion style={{ paddingRight: "20px", color: " #6E0D25" }} />{" "}
-						About app
-					</a>
-					<a href='/'>
-						<FaCog style={{ paddingRight: "20px", color: " #6E0D25" }} />
-						Settings
-					</a>
-				</div>
-				<div className='footerNav'>
-					©{new Date().getFullYear()} <strong>Pet Feeder</strong>
-					<br />
-					<div className='footerLink'>
-						<a href='/' style={{ textDecoration: "none", color: "white" }}>
-							Contact
-						</a>
+				<div className='row'>
+					<div
+						className='topNavLinksRight'
+						style={{
+							width: "20%",
+							float: "left",
+							textDecoration: "none",
+							textAlign: "left",
+						}}
+					>
+						<Link to='/' className='appName' style={{ fontSize: "50px" }}>
+							Pets Feeder
+						</Link>
+					</div>
+					<div
+						className='topNavLinksRight'
+						style={{ width: "50%", float: "left", paddingTop: "6px" }}
+					>
+						{blue == 1 ? (
+							<FaCircle
+								size='40px'
+								style={{ color: "#3399ff", paddingRight: "20px" }}
+							/>
+						) : null}
+						{red == 1 ? (
+							<FaCircle size='40px' style={{ color: "#ff0000" }} />
+						) : null}
+					</div>
+					<div
+						className='topNavLinksRight'
+						style={{ width: "30%", float: "right", paddingTop: "8px" }}
+					>
+						<Link to='/myPets'>My pets </Link>
+						<Link to='/dailyReport'>Daily Report</Link>
+						<Link to='#'>About </Link>
 					</div>
 				</div>
 			</div>
 		</Aux>
-		*/
 	);
 };
 
-export default navbar;
+export default Navbar;
