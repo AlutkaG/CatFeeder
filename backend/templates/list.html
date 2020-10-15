@@ -1,0 +1,26 @@
+<!doctype html>
+<html>
+   <body>
+      <table border = 1>
+         <thead>
+            <td>Name</td>
+            <td>Type</td>
+            <td>Portion</td>
+            <td>Hours</td>
+	    <td>Minutes</td>
+         </thead>
+         
+         {% for row in rows %}
+            <tr>
+               <td>{{row["name"]}}</td>
+               <td>{{row["type"]}}</td>
+               <td> {{ row["portion"]}}</td>
+               <td>{{row["hours"]}}</td>
+	       <td>{{row["minutes"]}}</td>	
+            </tr>
+         {% endfor %}
+      </table>
+      
+     
+   </body>
+</html>
