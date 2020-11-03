@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Formik, Form, Field } from "formik";
 import Select from "react-select";
 import * as Yup from "yup";
+import Cookies from "js-cookie";
 
 import Axios from "axios";
 
@@ -49,13 +50,13 @@ const selectStyles = {
 };
 const Modal = (props) => {
 	const pet = props.currentPet;
-
 	const [id, setId] = useState(0);
 	const [name, setName] = useState(pet.name);
 	const [type, setType] = useState("");
 	const [portion, setPortion] = useState("");
 	const [hours, setHours] = useState("");
 	const [minutes, setMinutes] = useState("");
+	const usr = Cookies.get("user");
 
 	const onClose = (e) => {
 		props.onClose && props.onClose(e);
@@ -87,7 +88,7 @@ const Modal = (props) => {
 		};
 
 		props.saveModal(data);
-		Axios.post("http://catfeeder.ddns.net/api/v1/update/${usr}", data)
+		Axios.post("http://catfeeder.ddns.net/api/v1/update/" + usr, data)
 			.then((res) => {
 				console.log(res);
 			})
