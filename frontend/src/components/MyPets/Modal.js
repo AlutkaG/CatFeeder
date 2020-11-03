@@ -87,7 +87,7 @@ const Modal = (props) => {
 		};
 
 		props.saveModal(data);
-		Axios.post("http://catfeeder.ddns.net/api/v1/update", data)
+		Axios.post("http://catfeeder.ddns.net/api/v1/update/${usr}", data)
 			.then((res) => {
 				console.log(res);
 			})

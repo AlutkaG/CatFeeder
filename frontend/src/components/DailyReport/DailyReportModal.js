@@ -28,7 +28,7 @@ const DailyReportModal = (props) => {
 		<div className='popupReport'>
 			<div className='popupReport-inner'>
 				<div className='name'>{props.name}</div>
-				<div>{listReport}</div>
+				<div style={{ paddingBottom: "10%" }}>{listReport}</div>
 				<button className='buttonClose' onClick={onClose}>
 					Close
 				</button>

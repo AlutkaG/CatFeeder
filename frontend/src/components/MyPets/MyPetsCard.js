@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import Cookies from "js-cookie";
 
 import "./MyPets.css";
 import Modal from "./Modal";
@@ -14,7 +15,9 @@ const PetCard = (props) => {
 	const [isClicked, setIsClicked] = useState(false);
 	const [isLoading, setIsLoading] = useState(false);
 	const [isChangeClick, setIsChangeClick] = useState(false);
+	const usr = Cookies.get("user");
 	const info = props.info;
+
 	const showModal = () => {
 		setIsShow(!isShow);
 	};
@@ -32,7 +35,7 @@ const PetCard = (props) => {
 	useEffect(() => {
 		const fetchData = async () => {
 			const result = await Axios(
-				"http://catfeeder.ddns.net/api/v1/getActiveId"
+				"http://catfeeder.ddns.net/api/v1/getActiveId/" + usr
 			);
 			console.log(info.length);
 			for (let i = 0; i < info.length; i++) {
@@ -62,7 +65,7 @@ const PetCard = (props) => {
 			};
 
 			setIndexNow(index);
-			Axios.post("http://catfeeder.ddns.net/api/v1/enabled", data)
+			Axios.post("http://catfeeder.ddns.net/api/v1/enabled/" + usr, data)
 				.then((res) => {
 					console.log(res);
 				})
@@ -77,7 +80,7 @@ const PetCard = (props) => {
 			};
 
 			setIndexNow(-1);
-			Axios.post("http://catfeeder.ddns.net/api/v1/disabled", data)
+			Axios.post("http://catfeeder.ddns.net/api/v1/disabled/" + usr, data)
 				.then((res) => {
 					console.log(res);
 				})
@@ -93,7 +96,7 @@ const PetCard = (props) => {
 		const data = {
 			id: id,
 		};
-		Axios.post("http://catfeeder.ddns.net/api/v1/delete", data)
+		Axios.post("http://catfeeder.ddns.net/api/v1/delete/" + usr, data)
 			.then((res) => {
 				console.log(res);
 			})

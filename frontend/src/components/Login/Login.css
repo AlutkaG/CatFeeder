@@ -1,0 +1,18 @@
+.loginBox {
+	width: 40%;
+	height: 30%;
+	background-color: #404040;
+	border-radius: 5px;
+	margin-left: 30%;
+	margin-top: 6%;
+	font-size: 30px;
+	text-align: center;
+	color: white;
+	box-shadow: 11px 10px 32px -4px rgba(0, 0, 0, 0.75);
+}
+
+.loginBody {
+	width: 100vw;
+	height: 100vh;
+	background-repeat: no-repeat;
+}

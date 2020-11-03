@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from "react";
 import Axios from "axios";
+import Aux from "../../hoc/Aux";
 
 import DailyReportCard from "./DailyReportCard";
+import Navbar from "../Navbar/Navbar";
 import { Prev } from "react-bootstrap/esm/PageItem";
 
 function DailyReport() {
@@ -21,9 +23,12 @@ function DailyReport() {
 		}
 	}, []);
 	return (
-		<div style={{ paddingTop: "10%" }}>
-			<DailyReportCard nameArray={nameArray} />
-		</div>
+		<Aux>
+			<Navbar />
+			<div style={{ paddingTop: "10%" }}>
+				<DailyReportCard nameArray={nameArray} />
+			</div>
+		</Aux>
 	);
 }
 

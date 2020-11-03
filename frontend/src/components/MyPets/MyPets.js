@@ -1,13 +1,16 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import { Formik, Form, Field } from "formik";
 import * as Yup from "yup";
 import Axios from "axios";
 import Select from "react-select";
+import Cookies from "js-cookie";
 
 import Aux from "../../hoc/Aux";
 
 import "./MyPets.css";
 import PetCard from "./MyPetsCard";
+import Navbar from "../Navbar/Navbar";
+import { UserContext } from "../../context/UserContext";
 
 const AddPetSchema = Yup.object().shape({
 	name: Yup.string()
@@ -75,6 +78,9 @@ function MyPets() {
 	const [isSave, setIsSave] = useState(false);
 	const [isChangeActive, setIsChangeActive] = useState(false);
 	const [isEnabled, setIsEnabled] = useState(false);
+	const [listError, setListError] = useState(false);
+	const { user } = useContext(UserContext);
+	const usr = Cookies.get("user");
 
 	const handleSubmit = (event) => {
 		setName(event.name);
@@ -91,7 +97,7 @@ function MyPets() {
 			minutes: event.minutes,
 			active: 0,
 		};
-		Axios.post("http://catfeeder.ddns.net/api/v1/addpet", data)
+		Axios.post("http://catfeeder.ddns.net/api/v1/addpet/" + usr, data)
 			.then((res) => {
 				console.log(res);
 			})
@@ -107,8 +113,9 @@ function MyPets() {
 
 	useEffect(() => {
 		const fetchData = async () => {
-			const result = await Axios("http://catfeeder.ddns.net/api/v1/list");
-
+			const result = await Axios(
+				"http://catfeeder.ddns.net/api/v1/list/" + usr
+			);
 			if (didIt === false) {
 				for (let i = 0; i < result.data.length; i++) {
 					idArray.push(result.data[i].id);
@@ -237,6 +244,7 @@ function MyPets() {
 	};
 	return (
 		<Aux>
+			<Navbar />
 			<div className='row'>
 				<div className='columnLeftPet'>
 					<div className='boxForm'>
