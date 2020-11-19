@@ -77,6 +77,7 @@ const Modal = (props) => {
 
 	const handleSave = (val) => {
 		console.log(val.name);
+
 		const data = {
 			id: id,
 			name: val.name,
@@ -105,7 +106,7 @@ const Modal = (props) => {
 	return (
 		<div className='popup'>
 			<div className='popup-inner'>
-				<div style={{ fontSize: "50px", paddingBottom: "1%" }}>Edit</div>
+				<div style={{ fontSize: "50px" }}>Edit</div>
 				<div className='row'>
 					<Formik
 						initialValues={{

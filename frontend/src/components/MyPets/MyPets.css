@@ -1,5 +1,6 @@
 .boxForm {
-	width: 70%;
+	width: 580px;
+	height: 550px;
 	margin-left: 14%;
 	padding-top: 10%;
 	padding-bottom: 10%;
@@ -82,7 +83,7 @@
 	margin-left: 4.3%;
 }
 
-input[type="submit"] {
+.submit {
 	background-color: black;
 	width: 65%;
 	height: 60px;
@@ -97,7 +98,7 @@ input[type="submit"] {
 	border-width: 1px;
 }
 
-input[type="submit"]:hover {
+.submit:hover {
 	background-color: black;
 }
 
@@ -151,8 +152,8 @@ p {
 }
 .popup-inner {
 	position: absolute;
-	width: 30%;
-	height: 60%;
+	width: 550px;
+	height: 500px;
 	border-radius: 4px;
 	background-color: #404040;
 	color: white;
@@ -226,4 +227,24 @@ p {
 .columnRightFormSelect {
 	float: right;
 	width: 70%;
+}
+
+@media (min-width: 751px) {
+	.petCardSmall {
+		display: none;
+	}
+}
+
+@media (max-width: 750px) {
+	.columnRightPet {
+		display: none;
+	}
+
+	.twoColumn {
+		display: none;
+	}
+
+	.boxForm {
+		width: 400px;
+	}
 }

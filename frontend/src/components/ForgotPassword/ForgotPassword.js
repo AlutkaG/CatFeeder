@@ -5,13 +5,14 @@ import { Link, useHistory } from "react-router-dom";
 import Axios from "axios";
 import Cookies from "js-cookie";
 
-import "./Login.css";
-import { LoggedContext } from "../../context/LoggedContext";
-
-const AddLoginSchema = Yup.object().shape({
+const AddForgotPasswordSchema = Yup.object().shape({
 	name: Yup.string()
 		.min(2, "Too short!")
 		.max(15, "Too long!")
+		.required("Required"),
+	question: Yup.string()
+		.min(2, "Too short! Minimum 2 letters!")
+		.max(15, "Too long! Maximum 15 letters!")
 		.required("Required"),
 	password: Yup.string()
 		.min(8, "Password is too short - minimum 8 chars")
@@ -20,58 +21,45 @@ const AddLoginSchema = Yup.object().shape({
 			"Password must contain minimum: 1 capital letter, 1 small letter, 1 digit "
 		)
 		.required("Required!"),
+	passwordConfirm: Yup.string()
+		.oneOf([Yup.ref("password"), null], "Passwords must match")
+		.required("Required!"),
 });
 
-function Login() {
-	const [user, setUser] = useState(0);
-	const [pet, setPet] = useState(0);
-	const { isLogged, setIsLogged } = useContext(LoggedContext);
-	const [error, setError] = useState("");
+function ForgotPassword() {
 	const history = useHistory();
 	const [color, setColor] = useState("#333333");
 	const usr = Cookies.get("user");
+	const [error, setError] = useState("");
 
 	const handleSubmit = (event) => {
 		let data = {
 			name: event.name,
 			password: event.password,
+			question: event.question,
 		};
 
-		Axios.post("http://catfeeder.ddns.net/api/v1/login", data)
+		Axios.post("http://catfeeder.ddns.net/api/v1/forgotPassword", data)
 			.then((res) => {
 				console.log(res);
-				if (res.data.msg == "Logged successful") {
-					Cookies.set("user", event.name);
-					setIsLogged(true);
-					history.replace("/home");
+				if (res.data.msg == "Change successful") {
+					history.replace("/login");
 				} else if (res.data.msg == "Bad name") {
 					setError("Bad name!");
-				} else if (res.data.msg == "Bad password") {
-					setError("Bad password!");
+				} else if (res.data.msg == "Bad answer") {
+					setError("Bad answer!");
 				}
 			})
 			.catch((error) => {
 				console.log(error.response);
 			});
-		Cookies.set("user", "Ala");
-		history.replace("/home");
 	};
 
 	useEffect(() => {
 		if (usr) {
 			history.replace("/home");
 		}
-		const fetchData = async () => {
-			const result = await Axios(
-				"http://catfeeder.ddns.net/api/v1/displayActivePet"
-			);
-			setPet(result.data.user);
-			setUser(result.data.user);
-			console.log(result);
-		};
-		fetchData();
-	}, []);
-
+	});
 	return (
 		<div className='loginBody'>
 			<div
@@ -80,11 +68,12 @@ function Login() {
 					color: "#333333",
 					fontSize: "100px",
 					paddingTop: "2%",
+					marginBottom: "5%",
 				}}
 			>
 				Pet Feeder
 			</div>
-			<div className='loginBox'>
+			<div className='registerBox'>
 				<div
 					style={{
 						fontSize: "50px",
@@ -97,14 +86,16 @@ function Login() {
 						backgroundColor: "rgba(0,0,0,0.8)",
 					}}
 				>
-					Login
+					Change Password
 				</div>
 				<Formik
 					initialValues={{
 						name: "",
 						password: "",
+						passwordConfirm: "",
+						question: "",
 					}}
-					validationSchema={AddLoginSchema}
+					validationSchema={AddForgotPasswordSchema}
 					onSubmit={(values) => {
 						handleSubmit(values);
 					}}
@@ -115,15 +106,19 @@ function Login() {
 								<div className='columnLeftLogin'>
 									<div>Name:</div>
 									<br />
-									<div style={{ marginTop: "3%" }}>Password:</div>
+									<div>What's the name of your favorite pet?</div>
+									<br />
+									<div>Password:</div>
+									<br />
+									<div>Password confirm:</div>
 								</div>
 								<div className='columnRightLogin'>
 									<div
 										className='errorLogin'
 										style={
 											errors.name && touched.name
-												? { paddingBottom: "10%" }
-												: { paddingBottom: "15%" }
+												? { paddingBottom: "6%" }
+												: { paddingBottom: "11%" }
 										}
 									>
 										<Field type='text' name='name' className='fieldRegLog' />
@@ -133,9 +128,27 @@ function Login() {
 									<div
 										className='errorLogin'
 										style={
-											errors.password && touched.password
-												? { paddingBottom: "10%" }
+											errors.question && touched.question
+												? { paddingBottom: "12%" }
 												: { paddingBottom: "15%" }
+										}
+									>
+										<Field
+											type='text'
+											name='question'
+											className='fieldRegLog'
+										/>
+										<br />
+										{errors.question && touched.question
+											? errors.question
+											: null}
+									</div>
+									<div
+										className='errorLogin'
+										style={
+											errors.password && touched.password
+												? { paddingBottom: "6%" }
+												: { paddingBottom: "11%" }
 										}
 									>
 										<Field
@@ -146,6 +159,24 @@ function Login() {
 										<br />
 										{errors.password && touched.password
 											? errors.password
+											: null}
+									</div>
+									<div
+										className='errorLogin'
+										style={
+											errors.passwordConfirm && touched.passwordConfirm
+												? { paddingBottom: "10%" }
+												: { paddingBottom: "15%" }
+										}
+									>
+										<Field
+											type='password'
+											name='passwordConfirm'
+											className='fieldRegLog'
+										/>
+										<br />
+										{errors.passwordConfirm && touched.passwordConfirm
+											? errors.passwordConfirm
 											: null}
 									</div>
 								</div>
@@ -162,7 +193,7 @@ function Login() {
 									<input
 										className='buttonSignIn'
 										type='submit'
-										value='Sign in'
+										value='Submit'
 									/>
 								</div>
 								<div
@@ -174,6 +205,19 @@ function Login() {
 									}}
 								>
 									<Link
+										to='/login'
+										onMouseEnter={() => setColor("black")}
+										onMouseLeave={() => setColor("#333333")}
+										style={{
+											fontSize: "18px",
+											textDecoration: "none",
+											color: color,
+										}}
+									>
+										Don you want to log in?
+									</Link>
+									<br />
+									<Link
 										to='/register'
 										onMouseEnter={() => setColor("black")}
 										onMouseLeave={() => setColor("#333333")}
@@ -183,35 +227,10 @@ function Login() {
 											color: color,
 										}}
 									>
-										Don't have account?
-									</Link>
-									<br />
-									<Link
-										to='/forgotPassword'
-										onMouseEnter={() => setColor("black")}
-										onMouseLeave={() => setColor("#333333")}
-										style={{
-											fontSize: "18px",
-											textDecoration: "none",
-											color: color,
-										}}
-									>
-										Forgot password?
+										Do you want to register?
 									</Link>
 								</div>
 							</div>
-							{user == 0 ? null : (
-								<div
-									style={{
-										color: "green",
-										marginTop: "4%",
-										fontSize: "20px",
-									}}
-								>
-									The active schedule is on the account: {user} <br />
-									The active schedule is for the pet: {pet}
-								</div>
-							)}
 							<div style={{ color: "red", marginTop: "4%", fontSize: "20px" }}>
 								{error}
 							</div>
@@ -223,4 +242,4 @@ function Login() {
 	);
 }
 
-export default Login;
+export default ForgotPassword;

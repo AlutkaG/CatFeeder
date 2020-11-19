@@ -11,18 +11,22 @@ import MyPets from "./components/MyPets/MyPets";
 import DailyReport from "./components/DailyReport/DailyReport";
 import Register from "./components/Register/Register";
 import Login from "./components/Login/Login";
-import { UserContext } from "./context/UserContext";
+import ForgotPassword from "./components/ForgotPassword/ForgotPassword";
+import { LoggedContext } from "./context/LoggedContext";
 
 function App() {
-	const [user, setUser] = useState(null);
+	const [isLogged, setIsLogged] = useState(null);
 
-	const value = useMemo(() => ({ user, setUser }), [user, setUser]);
+	const value = useMemo(() => ({ isLogged, setIsLogged }), [
+		isLogged,
+		setIsLogged,
+	]);
 
 	return (
 		<Router>
 			<div className='App'>
 				<div className='container'>
-					<UserContext.Provider value={value}>
+					<LoggedContext.Provider value={value}>
 						<Switch>
 							<Route exact path='/'>
 								<Redirect to='login' />
@@ -32,11 +36,12 @@ function App() {
 							<Route path='/dailyReport' component={DailyReport} />
 							<Route path='/register' component={Register} />
 							<Route path='/login' component={Login} />
+							<Route path='/forgotPassword' component={ForgotPassword} />
 							<Route path='*'>
 								<Redirect to='/login' />
 							</Route>
 						</Switch>
-					</UserContext.Provider>
+					</LoggedContext.Provider>
 				</div>
 			</div>
 		</Router>

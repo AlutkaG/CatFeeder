@@ -10,7 +10,9 @@ import Aux from "../../hoc/Aux";
 import "./MyPets.css";
 import PetCard from "./MyPetsCard";
 import Navbar from "../Navbar/Navbar";
-import { UserContext } from "../../context/UserContext";
+import { LoggedContext } from "../../context/LoggedContext";
+import { useHistory } from "react-router-dom";
+import SideNavbar from "../SideNavbar/SideNavbar";
 
 const AddPetSchema = Yup.object().shape({
 	name: Yup.string()
@@ -78,17 +80,12 @@ function MyPets() {
 	const [isSave, setIsSave] = useState(false);
 	const [isChangeActive, setIsChangeActive] = useState(false);
 	const [isEnabled, setIsEnabled] = useState(false);
-	const [listError, setListError] = useState(false);
-	const { user } = useContext(UserContext);
+	const [error, setError] = useState("");
 	const usr = Cookies.get("user");
+	const history = useHistory();
+	const [sidenavOpen, setSidenavOpen] = useState(false);
 
 	const handleSubmit = (event) => {
-		setName(event.name);
-		setType(event.type);
-		setPortion(event.portion);
-		setHours(event.hours);
-		setMinutes(event.minutes);
-		console.log(event.type);
 		let data = {
 			name: event.name,
 			type: event.type,
@@ -100,18 +97,28 @@ function MyPets() {
 		Axios.post("http://catfeeder.ddns.net/api/v1/addpet/" + usr, data)
 			.then((res) => {
 				console.log(res);
+				if (res.data.msg == "Pet exist") {
+					setError("Pet is already added");
+				} else {
+					setName(event.name);
+					setType(event.type);
+					setPortion(event.portion);
+					setHours(event.hours);
+					setMinutes(event.minutes);
+					setIsAdded(1);
+					setId(id + 1);
+					setIsLoading(false);
+				}
 			})
 			.catch((error) => {
 				console.log(error.response);
 			});
-
-		setIsAdded(1);
-		setId(id + 1);
-
-		setIsLoading(false);
 	};
 
 	useEffect(() => {
+		if (!usr) {
+			history.replace("/login");
+		}
 		const fetchData = async () => {
 			const result = await Axios(
 				"http://catfeeder.ddns.net/api/v1/list/" + usr
@@ -242,152 +249,194 @@ function MyPets() {
 		setType(selectedType.value);
 		console.log(selectedType.value);
 	};
+
+	const openHandler = () => {
+		setSidenavOpen(!sidenavOpen);
+	};
+
+	const closeNav = () => {
+		setSidenavOpen(!sidenavOpen);
+	};
+
 	return (
 		<Aux>
-			<Navbar />
-			<div className='row'>
-				<div className='columnLeftPet'>
-					<div className='boxForm'>
-						<div className='addPetText'>Add Pet</div>
-						<Formik
-							initialValues={{
-								name: "",
-								type: "",
-								portion: "",
-								hours: [],
-								minutes: [],
-							}}
-							validationSchema={AddPetSchema}
-							onSubmit={(values) => {
-								handleSubmit(values);
-							}}
-						>
-							{({ errors, touched, handleChange }) => (
-								<Form className='formAddPet'>
-									<div className='row'>
-										<div className='columnLeftFormSelect'>
-											<div style={{ paddingBottom: "1%" }}>Name: </div>
-											<br /> <div style={{ paddingBottom: "1%" }}>
-												Type:
-											</div>{" "}
-											<br /> <div style={{ paddingBottom: "1%" }}>Portion:</div>{" "}
-											<br /> <div style={{ paddingBottom: "1%" }}>Hours:</div>{" "}
-											<br />{" "}
-											<div style={{ paddingBottom: "1%" }}>Minutes: </div>{" "}
-										</div>
-										<div className='columnRightFormSelect'>
-											<Field
-												className='input'
-												type='text'
-												placeholder='Name...'
-												name='name'
-											/>
-											<div
-												style={{
-													fontSize: "15px",
-													color: "red",
-												}}
-											>
-												{errors.name && touched.name ? (
-													<div style={{ marginTop: "-6%", marginBottom: "2%" }}>
-														{errors.name}
-													</div>
-												) : null}
+			<Navbar openClickHandler={openHandler} />
+			<SideNavbar show={sidenavOpen} onClose={closeNav} />
+			<div className='twoColumn'>
+				<div className='row'>
+					<div className='columnLeftPet'>
+						<div className='boxForm'>
+							<div className='addPetText'>Add Pet</div>
+							<Formik
+								initialValues={{
+									name: "",
+									type: "",
+									portion: "",
+									hours: [],
+									minutes: [],
+								}}
+								validationSchema={AddPetSchema}
+								onSubmit={(values) => {
+									handleSubmit(values);
+								}}
+							>
+								{({ errors, touched, handleChange }) => (
+									<Form className='formAddPet'>
+										<div className='row'>
+											<div className='columnLeftFormSelect'>
+												<div style={{ paddingBottom: "1%" }}>Name: </div>
+												<br /> <div style={{ paddingBottom: "1%" }}>
+													Type:
+												</div>{" "}
+												<br />{" "}
+												<div style={{ paddingBottom: "1%" }}>Portion:</div>{" "}
+												<br /> <div style={{ paddingBottom: "1%" }}>Hours:</div>{" "}
+												<br />{" "}
+												<div style={{ paddingBottom: "1%" }}>Minutes: </div>{" "}
 											</div>
-											<Select
-												placeholder='Type...'
-												options={options}
-												onChange={(select) => {
-													handleTypeChange(select);
-													handleChange("type")(select.value);
-												}}
-												styles={selectStyles}
-												name='type'
-												className='inputSelect'
-											/>
-											<div
-												style={{
-													fontSize: "15px",
-													color: "red",
-												}}
-											>
-												{errors.type && touched.type ? (
-													<div style={{ marginTop: "-6%" }}>{errors.type}</div>
-												) : null}{" "}
-											</div>
-											<Field
-												className='input'
-												type='text'
-												placeholder='Portion (1 portion -> 1 rotation of the servo)...'
-												name='portion'
-											/>
-											<div
-												style={{
-													fontSize: "15px",
-													color: "red",
-												}}
-											>
-												{errors.portion && touched.portion ? (
-													<div style={{ marginTop: "-6%" }}>
-														{errors.portion}
-													</div>
-												) : null}
-											</div>
+											<div className='columnRightFormSelect'>
+												<Field
+													className='input'
+													type='text'
+													placeholder='Name...'
+													name='name'
+												/>
+												<div
+													style={{
+														fontSize: "15px",
+														color: "red",
+													}}
+												>
+													{errors.name && touched.name ? (
+														<div
+															style={{ marginTop: "-6%", marginBottom: "2%" }}
+														>
+															{errors.name}
+														</div>
+													) : null}
+												</div>
+												<Select
+													placeholder='Type...'
+													options={options}
+													onChange={(select) => {
+														handleTypeChange(select);
+														handleChange("type")(select.value);
+													}}
+													styles={selectStyles}
+													name='type'
+													className='inputSelect'
+												/>
+												<div
+													style={{
+														fontSize: "15px",
+														color: "red",
+													}}
+												>
+													{errors.type && touched.type ? (
+														<div style={{ marginTop: "-6%" }}>
+															{errors.type}
+														</div>
+													) : null}{" "}
+												</div>
+												<Field
+													className='input'
+													type='text'
+													placeholder='Portion (1 portion -> 1 rotation of the servo)...'
+													name='portion'
+												/>
+												<div
+													style={{
+														fontSize: "15px",
+														color: "red",
+													}}
+												>
+													{errors.portion && touched.portion ? (
+														<div style={{ marginTop: "-6%" }}>
+															{errors.portion}
+														</div>
+													) : null}
+												</div>
 
-											<Field
-												className='input'
-												type='text'
-												placeholder='Hour (1-24)...'
-												name='hours'
-											/>
-											<div
-												style={{
-													fontSize: "15px",
-													color: "red",
-												}}
-											>
-												{errors.hours && touched.hours ? (
-													<div style={{ marginTop: "-6%" }}>{errors.hours}</div>
-												) : null}
-											</div>
+												<Field
+													className='input'
+													type='text'
+													placeholder='Hour (1-24)...'
+													name='hours'
+												/>
+												<div
+													style={{
+														fontSize: "15px",
+														color: "red",
+													}}
+												>
+													{errors.hours && touched.hours ? (
+														<div style={{ marginTop: "-6%" }}>
+															{errors.hours}
+														</div>
+													) : null}
+												</div>
 
-											<Field
-												className='input'
-												type='text'
-												placeholder='Minutes (1-59)...'
-												name='minutes'
-											/>
-											<div
-												style={{
-													fontSize: "15px",
-													color: "red",
-												}}
-											>
-												{errors.minutes && touched.minutes ? (
-													<div style={{ marginTop: "-6%", marginBottom: "2%" }}>
-														{errors.minutes}
-													</div>
-												) : null}
+												<Field
+													className='input'
+													type='text'
+													placeholder='Minutes (1-59)...'
+													name='minutes'
+												/>
+												<div
+													style={{
+														fontSize: "15px",
+														color: "red",
+													}}
+												>
+													{errors.minutes && touched.minutes ? (
+														<div
+															style={{ marginTop: "-6%", marginBottom: "2%" }}
+														>
+															{errors.minutes}
+														</div>
+													) : null}
+												</div>
 											</div>
 										</div>
-									</div>
-									<input type='submit' value='Add Pet' />
-								</Form>
-							)}
-						</Formik>
+										<input type='submit' value='Add Pet' className='submit' />
+										<div
+											style={{
+												color: "red",
+												fontSize: "20px",
+												paddingTop: "5%",
+											}}
+										>
+											{error}
+										</div>
+									</Form>
+								)}
+							</Formik>
+							<div className='petCardSmall'>
+								<PetCard
+									info={infoArray}
+									delete={deletePet}
+									save={savePet}
+									active={activeHandle}
+									disabled={disabledHandle}
+									schema={AddPetSchema}
+									options={options}
+									style={selectStyles}
+								/>
+							</div>
+						</div>
 					</div>
-				</div>
-				<div className='columnRightPet'>
-					<PetCard
-						info={infoArray}
-						delete={deletePet}
-						save={savePet}
-						active={activeHandle}
-						disabled={disabledHandle}
-						schema={AddPetSchema}
-						options={options}
-						style={selectStyles}
-					/>
+					<div className='columnRightPet'>
+						<PetCard
+							info={infoArray}
+							delete={deletePet}
+							save={savePet}
+							active={activeHandle}
+							disabled={disabledHandle}
+							schema={AddPetSchema}
+							options={options}
+							style={selectStyles}
+						/>
+					</div>
 				</div>
 			</div>
 		</Aux>

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
-import { FaCircle, FaUser } from "react-icons/fa";
-import { MdKeyboardArrowDown } from "react-icons/md";
+import { Link, useHistory } from "react-router-dom";
+import { FaCircle } from "react-icons/fa";
+import { IoIosPower, IoIosMenu } from "react-icons/io";
 import axios from "axios";
 import Cookies from "js-cookie";
 
@@ -14,6 +14,7 @@ const Navbar = (props) => {
 	const [blue, setBlue] = useState(0);
 	const [temp, setTemp] = useState("No information");
 	const usr = Cookies.get("user");
+	const history = useHistory();
 
 	useEffect(() => {
 		const fetchData = async () => {
@@ -33,31 +34,30 @@ const Navbar = (props) => {
 		}, 2000);
 		return () => clearInterval(interval);
 	}, []);
+
+	const handleLogout = () => {
+		Cookies.remove("user", { path: "" });
+		history.replace("/login");
+	};
+
+	const handleOpen = () => {
+		props.openClickHandler();
+	};
+
 	return (
 		<Aux>
 			<div className='topNav'>
-				<div className='row'>
-					<div
-						className='topNavLinksRight'
-						style={{
-							width: "20%",
-							float: "left",
-							textDecoration: "none",
-							textAlign: "left",
-						}}
-					>
-						<Link to='/home' className='appName' style={{ fontSize: "50px" }}>
+				<div className='topNavNavi'>
+					<button className='icon-menu' onClick={(e) => handleOpen()}>
+						<IoIosMenu size='50px' color='white' />
+					</button>
+					<div>
+						<Link to='/home' className='appName'>
 							Pets Feeder
 						</Link>
 					</div>
-					<div
-						className='topNavLinksRight'
-						style={{
-							width: "30%",
-							float: "left",
-							paddingTop: "6px",
-						}}
-					>
+					<div className='spacer' />
+					<div className='topNavLinksRight'>
 						{blue == 1 ? (
 							<FaCircle
 								size='40px'
@@ -67,32 +67,34 @@ const Navbar = (props) => {
 						{red == 1 ? (
 							<FaCircle size='40px' style={{ color: "#ff0000" }} />
 						) : null}
-					</div>
-					<div
-						sclassName='topNavLinksRight'
-						style={{
-							width: "10%",
-							float: "left",
-							paddingTop: "16px",
-							textAlign: "center",
-							fontSize: "20px",
-							color: "#b3ecff",
-						}}
-					>
-						{temp}
-					</div>
-					<div
-						className='topNavLinksRight'
-						style={{ width: "40%", float: "right", paddingTop: "8px" }}
-					>
+
+						<p
+							style={{
+								color: "#b3ecff",
+								paddingRight: "40px",
+								fontSize: "20px",
+							}}
+						>
+							{temp}
+						</p>
 						<Link to='/myPets'>My pets </Link>
 						<Link to='/dailyReport'>Daily Report</Link>
 						<Link to='#'>About </Link>
-						<Link to='#'>
-							<FaUser />
-
-							<MdKeyboardArrowDown />
-						</Link>
+						<button
+							style={{
+								width: "40px",
+								height: "40px",
+								marginRight: "20px",
+								outline: "none",
+								backgroundColor: "#262626",
+								border: "none",
+								color: "white",
+								cursor: "pointer",
+							}}
+							onClick={handleLogout}
+						>
+							<IoIosPower size='35px' />
+						</button>
 					</div>
 				</div>
 			</div>
