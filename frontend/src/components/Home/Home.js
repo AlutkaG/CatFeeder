@@ -7,11 +7,9 @@ import Aux from "../../hoc/Aux";
 import feed from "../../img/homeColor.png";
 import "./Home.css";
 import Navbar from "../Navbar/Navbar";
-import { LoggedContext } from "../../context/LoggedContext";
 import SideNavbar from "../SideNavbar/SideNavbar";
 
 function Home() {
-	const [isClicked, setIsClicked] = useState(0);
 	const history = useHistory();
 	const usr = Cookies.get("user");
 	const [sidenavOpen, setSidenavOpen] = useState(false);
@@ -19,15 +17,6 @@ function Home() {
 	useEffect(() => {
 		if (!usr) {
 			history.replace("/login");
-		}
-		if (isClicked == 1) {
-			const fetchData = async () => {
-				const result = await axios(
-					"http://catfeeder.ddns.net/api/v1/activate" + usr
-				);
-			};
-			fetchData();
-			setIsClicked(0);
 		}
 	}, []);
 
@@ -37,6 +26,16 @@ function Home() {
 
 	const closeNav = () => {
 		setSidenavOpen(!sidenavOpen);
+	};
+
+	const clickServoHandler = () => {
+		console.log("haj");
+		const fetchData = async () => {
+			const result = await axios(
+				"http://catfeeder.ddns.net/api/v1/activate/" + usr
+			);
+		};
+		fetchData();
 	};
 
 	return (
@@ -60,7 +59,10 @@ function Home() {
 						<div className='textBox1'>
 							<div className='text1'>Is your pet hungry?</div>
 						</div>
-						<button className='pressButton' onClick={() => setIsClicked(1)} />
+						<button
+							className='pressButton'
+							onClick={() => clickServoHandler()}
+						/>
 					</div>
 					<div className='columnCenterHome'>
 						<div className='textBox2'>
@@ -84,7 +86,10 @@ function Home() {
 							<div className='text1'>Is your pet hungry?</div>
 						</div>
 
-						<button className='pressButton' onClick={() => setIsClicked(1)} />
+						<button
+							className='pressButton'
+							onClick={() => clickServoHandler()}
+						/>
 					</div>
 					<div className='columnCenterHome'>
 						<div className='textBox2'>
@@ -102,7 +107,7 @@ function Home() {
 						You can feed your pet by clicking on the button!
 					</div>
 				</div>
-				<button className='pressButton' onClick={() => setIsClicked(1)} />
+				<button className='pressButton' onClick={() => clickServoHandler()} />
 			</div>
 		</Aux>
 	);

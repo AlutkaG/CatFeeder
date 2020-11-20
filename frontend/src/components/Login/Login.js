@@ -53,8 +53,6 @@ function Login() {
 			.catch((error) => {
 				console.log(error.response);
 			});
-		Cookies.set("user", "Ala");
-		history.replace("/home");
 	};
 
 	useEffect(() => {
@@ -74,16 +72,7 @@ function Login() {
 
 	return (
 		<div className='loginBody'>
-			<div
-				style={{
-					textAlign: "center",
-					color: "#333333",
-					fontSize: "100px",
-					paddingTop: "2%",
-				}}
-			>
-				Pet Feeder
-			</div>
+			<div className='appNameLogin'>Pet Feeder</div>
 			<div className='loginBox'>
 				<div
 					style={{
@@ -109,13 +98,21 @@ function Login() {
 						handleSubmit(values);
 					}}
 				>
-					{({ errors, touched, handleChange }) => (
+					{({ errors, touched }) => (
 						<Form>
 							<div className='row'>
 								<div className='columnLeftLogin'>
 									<div>Name:</div>
 									<br />
-									<div style={{ marginTop: "3%" }}>Password:</div>
+									<div
+										style={
+											window.matchMedia("(max-width:500px)")
+												? { marginTop: "0%" }
+												: { marginTop: "3%" }
+										}
+									>
+										Password:
+									</div>
 								</div>
 								<div className='columnRightLogin'>
 									<div
@@ -150,7 +147,7 @@ function Login() {
 									</div>
 								</div>
 							</div>
-							<div className='row'>
+							<div className='row loginBig'>
 								<div
 									style={{
 										width: "50%",
@@ -199,6 +196,41 @@ function Login() {
 										Forgot password?
 									</Link>
 								</div>
+							</div>
+							<div className='loginSmall'>
+								{" "}
+								<input
+									style={{ marginBottom: "10px" }}
+									className='buttonSignIn'
+									type='submit'
+									value='Sign in'
+								/>
+								<br />
+								<Link
+									to='/register'
+									onMouseEnter={() => setColor("black")}
+									onMouseLeave={() => setColor("#333333")}
+									style={{
+										fontSize: "18px",
+										textDecoration: "none",
+										color: color,
+									}}
+								>
+									Don't have account?
+								</Link>
+								<br />
+								<Link
+									to='/forgotPassword'
+									onMouseEnter={() => setColor("black")}
+									onMouseLeave={() => setColor("#333333")}
+									style={{
+										fontSize: "18px",
+										textDecoration: "none",
+										color: color,
+									}}
+								>
+									Forgot password?
+								</Link>
 							</div>
 							{user == 0 ? null : (
 								<div

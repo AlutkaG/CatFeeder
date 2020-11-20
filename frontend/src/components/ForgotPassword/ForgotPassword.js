@@ -5,6 +5,8 @@ import { Link, useHistory } from "react-router-dom";
 import Axios from "axios";
 import Cookies from "js-cookie";
 
+import "./ForgotPassword.css";
+
 const AddForgotPasswordSchema = Yup.object().shape({
 	name: Yup.string()
 		.min(2, "Too short!")
@@ -62,32 +64,9 @@ function ForgotPassword() {
 	});
 	return (
 		<div className='loginBody'>
-			<div
-				style={{
-					textAlign: "center",
-					color: "#333333",
-					fontSize: "100px",
-					paddingTop: "2%",
-					marginBottom: "5%",
-				}}
-			>
-				Pet Feeder
-			</div>
+			<div className='appNameLogin'>Pet Feeder</div>
 			<div className='registerBox'>
-				<div
-					style={{
-						fontSize: "50px",
-						marginBottom: "7%",
-						paddingBottom: "2%",
-						paddingTop: "5%",
-						borderStyle: "none none solid none",
-						borderWidth: "1px",
-						color: "white",
-						backgroundColor: "rgba(0,0,0,0.8)",
-					}}
-				>
-					Change Password
-				</div>
+				<div className='changePswdName'>Change Password</div>
 				<Formik
 					initialValues={{
 						name: "",
@@ -100,7 +79,7 @@ function ForgotPassword() {
 						handleSubmit(values);
 					}}
 				>
-					{({ errors, touched, handleChange }) => (
+					{({ errors, touched }) => (
 						<Form>
 							<div className='row'>
 								<div className='columnLeftLogin'>
@@ -114,7 +93,11 @@ function ForgotPassword() {
 								</div>
 								<div className='columnRightLogin'>
 									<div
-										className='errorLogin'
+										className={
+											window.matchMedia("(max-width:500px)")
+												? "errorFPSmall"
+												: "errorLogin"
+										}
 										style={
 											errors.name && touched.name
 												? { paddingBottom: "6%" }
@@ -126,7 +109,11 @@ function ForgotPassword() {
 										{errors.name && touched.name ? errors.name : null}
 									</div>
 									<div
-										className='errorLogin'
+										className={
+											window.matchMedia("(max-width:500px)")
+												? "errorFPSmall2"
+												: "errorLogin"
+										}
 										style={
 											errors.question && touched.question
 												? { paddingBottom: "12%" }
@@ -144,7 +131,11 @@ function ForgotPassword() {
 											: null}
 									</div>
 									<div
-										className='errorLogin'
+										className={
+											window.matchMedia("(max-width:500px)")
+												? "errorFPSmall"
+												: "errorLogin"
+										}
 										style={
 											errors.password && touched.password
 												? { paddingBottom: "6%" }
@@ -162,7 +153,11 @@ function ForgotPassword() {
 											: null}
 									</div>
 									<div
-										className='errorLogin'
+										className={
+											window.matchMedia("(max-width:500px)")
+												? "errorFPSmall3"
+												: "errorLogin"
+										}
 										style={
 											errors.passwordConfirm && touched.passwordConfirm
 												? { paddingBottom: "10%" }
@@ -181,7 +176,7 @@ function ForgotPassword() {
 									</div>
 								</div>
 							</div>
-							<div className='row'>
+							<div className='row loginBig'>
 								<div
 									style={{
 										width: "50%",
@@ -230,6 +225,40 @@ function ForgotPassword() {
 										Do you want to register?
 									</Link>
 								</div>
+							</div>
+							<div className='loginSmall'>
+								<input
+									className='buttonSignIn'
+									type='submit'
+									value='Submit'
+									style={{ marginBottom: "10px" }}
+								/>
+								<br />
+								<Link
+									to='/login'
+									onMouseEnter={() => setColor("black")}
+									onMouseLeave={() => setColor("#333333")}
+									style={{
+										fontSize: "18px",
+										textDecoration: "none",
+										color: color,
+									}}
+								>
+									Don you want to log in?
+								</Link>
+								<br />
+								<Link
+									to='/register'
+									onMouseEnter={() => setColor("black")}
+									onMouseLeave={() => setColor("#333333")}
+									style={{
+										fontSize: "18px",
+										textDecoration: "none",
+										color: color,
+									}}
+								>
+									Do you want to register?
+								</Link>
 							</div>
 							<div style={{ color: "red", marginTop: "4%", fontSize: "20px" }}>
 								{error}

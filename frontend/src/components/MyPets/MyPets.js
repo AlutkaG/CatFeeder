@@ -10,7 +10,6 @@ import Aux from "../../hoc/Aux";
 import "./MyPets.css";
 import PetCard from "./MyPetsCard";
 import Navbar from "../Navbar/Navbar";
-import { LoggedContext } from "../../context/LoggedContext";
 import { useHistory } from "react-router-dom";
 import SideNavbar from "../SideNavbar/SideNavbar";
 
@@ -113,6 +112,25 @@ function MyPets() {
 			.catch((error) => {
 				console.log(error.response);
 			});
+		nameArray.push(event.name);
+		typeArray.push(event.type);
+		portionArray.push(event.portion);
+		hoursArray.push(event.hours);
+		minutesArray.push(event.minutes);
+		isActiveArray.push(0);
+
+		let info = {
+			hours: event.hours,
+			id: id + 1,
+			minutes: event.minutes,
+			name: event.name,
+			portion: event.portion,
+			type: event.type,
+			active: 0,
+		};
+		infoArray.push(info);
+		setId(info.id);
+		console.log("info id: " + info.id);
 	};
 
 	useEffect(() => {
@@ -137,25 +155,6 @@ function MyPets() {
 					setId(result.data[result.data.length - 1].id);
 				}
 				setDidIt(true);
-			} else if (didIt === true && isAdded === 1) {
-				nameArray.push(name);
-				typeArray.push(type);
-				portionArray.push(portion);
-				hoursArray.push(hours);
-				minutesArray.push(minutes);
-				isActiveArray.push(0);
-
-				let data = {
-					hours: hours,
-					id: id,
-					minutes: minutes,
-					name: name,
-					portion: portion,
-					type: type,
-					active: isActive,
-				};
-				infoArray.push(data);
-				setIsAdded(0);
 			}
 		};
 
@@ -411,18 +410,6 @@ function MyPets() {
 									</Form>
 								)}
 							</Formik>
-							<div className='petCardSmall'>
-								<PetCard
-									info={infoArray}
-									delete={deletePet}
-									save={savePet}
-									active={activeHandle}
-									disabled={disabledHandle}
-									schema={AddPetSchema}
-									options={options}
-									style={selectStyles}
-								/>
-							</div>
 						</div>
 					</div>
 					<div className='columnRightPet'>
@@ -438,6 +425,151 @@ function MyPets() {
 						/>
 					</div>
 				</div>
+			</div>
+			<div className='oneColumn'>
+				<div className='boxForm'>
+					<div className='addPetText'>Add Pet</div>
+					<Formik
+						initialValues={{
+							name: "",
+							type: "",
+							portion: "",
+							hours: [],
+							minutes: [],
+						}}
+						validationSchema={AddPetSchema}
+						onSubmit={(values) => {
+							handleSubmit(values);
+						}}
+					>
+						{({ errors, touched, handleChange }) => (
+							<Form className='formAddPet'>
+								<div className='row'>
+									<div className='columnLeftFormSelect'>
+										<div style={{ paddingBottom: "1%" }}>Name: </div>
+										<br /> <div style={{ paddingBottom: "1%" }}>Type:</div>{" "}
+										<br /> <div style={{ paddingBottom: "1%" }}>Portion:</div>{" "}
+										<br /> <div style={{ paddingBottom: "1%" }}>Hours:</div>{" "}
+										<br /> <div style={{ paddingBottom: "1%" }}>Minutes: </div>{" "}
+									</div>
+									<div className='columnRightFormSelect'>
+										<Field
+											className='input'
+											type='text'
+											placeholder='Name...'
+											name='name'
+										/>
+										<div
+											style={{
+												fontSize: "15px",
+												color: "red",
+											}}
+										>
+											{errors.name && touched.name ? (
+												<div style={{ marginTop: "-6%", marginBottom: "2%" }}>
+													{errors.name}
+												</div>
+											) : null}
+										</div>
+										<Select
+											placeholder='Type...'
+											options={options}
+											onChange={(select) => {
+												handleTypeChange(select);
+												handleChange("type")(select.value);
+											}}
+											styles={selectStyles}
+											name='type'
+											className='inputSelect'
+										/>
+										<div
+											style={{
+												fontSize: "15px",
+												color: "red",
+											}}
+										>
+											{errors.type && touched.type ? (
+												<div style={{ marginTop: "-6%" }}>{errors.type}</div>
+											) : null}{" "}
+										</div>
+										<Field
+											className='input'
+											type='text'
+											placeholder='Portion (1 portion -> 1 rotation of the servo)...'
+											name='portion'
+										/>
+										<div
+											style={{
+												fontSize: "15px",
+												color: "red",
+											}}
+										>
+											{errors.portion && touched.portion ? (
+												<div style={{ marginTop: "-6%" }}>{errors.portion}</div>
+											) : null}
+										</div>
+
+										<Field
+											className='input'
+											type='text'
+											placeholder='Hour (1-24)...'
+											name='hours'
+										/>
+										<div
+											style={{
+												fontSize: "15px",
+												color: "red",
+											}}
+										>
+											{errors.hours && touched.hours ? (
+												<div style={{ marginTop: "-6%" }}>{errors.hours}</div>
+											) : null}
+										</div>
+
+										<Field
+											className='input'
+											type='text'
+											placeholder='Minutes (1-59)...'
+											name='minutes'
+										/>
+										<div
+											style={{
+												fontSize: "15px",
+												color: "red",
+											}}
+										>
+											{errors.minutes && touched.minutes ? (
+												<div style={{ marginTop: "-6%", marginBottom: "2%" }}>
+													{errors.minutes}
+												</div>
+											) : null}
+										</div>
+									</div>
+								</div>
+								<input type='submit' value='Add Pet' className='submit' />
+								<div
+									style={{
+										color: "red",
+										fontSize: "20px",
+										paddingTop: "5%",
+									}}
+								>
+									{error}
+								</div>
+							</Form>
+						)}
+					</Formik>
+				</div>
+				<PetCard
+					info={infoArray}
+					delete={deletePet}
+					save={savePet}
+					active={activeHandle}
+					disabled={disabledHandle}
+					schema={AddPetSchema}
+					options={options}
+					style={selectStyles}
+				/>
 			</div>
 		</Aux>
 	);

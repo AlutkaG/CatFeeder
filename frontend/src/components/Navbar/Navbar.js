@@ -56,8 +56,18 @@ const Navbar = (props) => {
 							Pets Feeder
 						</Link>
 					</div>
-					<div className='spacer' />
-					<div className='topNavLinksRight'>
+					<div className='sensorsSmall'>
+						{blue == 1 ? (
+							<FaCircle
+								size='30px'
+								style={{ color: "#3399ff", paddingRight: "20px" }}
+							/>
+						) : null}
+						{red == 1 ? (
+							<FaCircle size='30px' style={{ color: "#ff0000" }} />
+						) : null}
+					</div>
+					<div className='sensorsBig'>
 						{blue == 1 ? (
 							<FaCircle
 								size='40px'
@@ -67,7 +77,9 @@ const Navbar = (props) => {
 						{red == 1 ? (
 							<FaCircle size='40px' style={{ color: "#ff0000" }} />
 						) : null}
-
+					</div>
+					<div className='spacer' />
+					<div className='topNavLinksRight'>
 						<p
 							style={{
 								color: "#b3ecff",

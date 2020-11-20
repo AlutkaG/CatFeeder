@@ -57,3 +57,22 @@
 p {
 	display: inline-block;
 }
+
+.listPets {
+	margin-left: 50px;
+}
+
+@media (max-width: 500px) {
+	.reportCard {
+		width: 300px;
+		margin: 0;
+		margin-top: 70px;
+	}
+	.listPets {
+		margin-left: 8%;
+	}
+	.popupReport-inner {
+		width: 300px;
+		padding-top: 40px;
+	}
+}

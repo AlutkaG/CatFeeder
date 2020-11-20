@@ -54,3 +54,34 @@
 	font-size: 10px;
 	color: red;
 }
+
+.appNameLogin {
+	text-align: center;
+	color: #333333;
+	font-size: 100px;
+	padding-top: 2%;
+}
+
+@media (max-width: 500px) {
+	.loginBox {
+		width: 300px;
+		height: 470px;
+		margin-left: 8%;
+		font-size: 20px;
+	}
+
+	.loginBig {
+		display: none;
+	}
+	.appNameLogin {
+		font-size: 50px;
+		padding-top: 8%;
+		color: black;
+	}
+}
+
+@media (min-width: 501px) {
+	.loginSmall {
+		display: none;
+	}
+}

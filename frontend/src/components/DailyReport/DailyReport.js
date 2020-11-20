@@ -6,12 +6,12 @@ import Cookies from "js-cookie";
 
 import DailyReportCard from "./DailyReportCard";
 import Navbar from "../Navbar/Navbar";
-import { LoggedContext } from "../../context/LoggedContext";
+import SideNavbar from "../SideNavbar/SideNavbar";
 
 function DailyReport() {
 	const [nameArray, setNameArray] = useState([]);
 	const [isLoading, setIsLoading] = useState(false);
-	const { isLogged } = useContext(LoggedContext);
+	const [sidenavOpen, setSidenavOpen] = useState(false);
 	const history = useHistory();
 	const usr = Cookies.get("user");
 
@@ -20,7 +20,9 @@ function DailyReport() {
 			history.replace("/login");
 		}
 		const fetchData = async () => {
-			const result = await Axios("http://catfeeder.ddns.net/api/v1/list");
+			const result = await Axios(
+				"http://catfeeder.ddns.net/api/v1/list/" + usr
+			);
 			for (let i = 0; i < result.data.length; i++) {
 				setNameArray((prev) => [...prev, result.data[i].name]);
 			}
@@ -30,9 +32,18 @@ function DailyReport() {
 			fetchData();
 		}
 	}, []);
+
+	const openHandler = () => {
+		setSidenavOpen(!sidenavOpen);
+	};
+
+	const closeNav = () => {
+		setSidenavOpen(!sidenavOpen);
+	};
 	return (
 		<Aux>
-			<Navbar />
+			<Navbar openClickHandler={openHandler} />
+			<SideNavbar show={sidenavOpen} onClose={closeNav} />
 			<div style={{ paddingTop: "10%" }}>
 				<DailyReportCard nameArray={nameArray} />
 			</div>

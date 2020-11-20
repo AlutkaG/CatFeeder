@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
-import DailyReport from "./DailyReport";
 import Axios from "axios";
+import Cookies from "js-cookie";
 
 import "./DailyReport.css";
 import Modal from "./DailyReportModal";
@@ -11,6 +11,7 @@ const DailyReportCard = (props) => {
 	const [isShow, setIsShow] = useState(false);
 	const [currentName, setCurrentName] = useState("");
 	const [info, setInfo] = useState([]);
+	const usr = Cookies.get("user");
 
 	const showModal = () => {
 		setIsShow(!isShow);
@@ -20,7 +21,7 @@ const DailyReportCard = (props) => {
 		const data = {
 			name: pet,
 		};
-		Axios.post("http://catfeeder.ddns.net/api/v1/reportPet", data)
+		Axios.post("http://catfeeder.ddns.net/api/v1/reportPet/" + usr, data)
 			.then((res) => {
 				setInfo(res.data);
 			})
@@ -44,7 +45,7 @@ const DailyReportCard = (props) => {
 		</button>
 	));
 	return (
-		<div style={{ marginLeft: "50px" }}>
+		<div className='listPets'>
 			{listPetsReport}
 			<Modal onClose={showModal} show={isShow} info={info} name={currentName} />
 		</div>

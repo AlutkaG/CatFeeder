@@ -63,17 +63,7 @@ const Register = () => {
 
 	return (
 		<div className='loginBody'>
-			<div
-				style={{
-					textAlign: "center",
-					color: "#333333",
-					fontSize: "100px",
-					paddingTop: "2%",
-					marginBottom: "5%",
-				}}
-			>
-				Pet Feeder
-			</div>
+			<div className='appNameLogin'>Pet Feeder</div>
 			<div className='registerBox'>
 				<div
 					style={{
@@ -101,7 +91,7 @@ const Register = () => {
 						handleSubmit(values);
 					}}
 				>
-					{({ errors, touched, handleChange }) => (
+					{({ errors, touched }) => (
 						<Form>
 							<div className='row'>
 								<div className='columnLeftLogin'>
@@ -115,7 +105,11 @@ const Register = () => {
 								</div>
 								<div className='columnRightLogin'>
 									<div
-										className='errorLogin'
+										className={
+											window.matchMedia("(max-width:500px)")
+												? "errorRegisterSmall"
+												: "errorLogin"
+										}
 										style={
 											errors.name && touched.name
 												? { paddingBottom: "6%" }
@@ -127,7 +121,11 @@ const Register = () => {
 										{errors.name && touched.name ? errors.name : null}
 									</div>
 									<div
-										className='errorLogin'
+										className={
+											window.matchMedia("(max-width:500px)")
+												? "errorRegisterSmall2"
+												: "errorLogin"
+										}
 										style={
 											errors.password && touched.password
 												? { paddingBottom: "6%" }
@@ -145,7 +143,11 @@ const Register = () => {
 											: null}
 									</div>
 									<div
-										className='errorLogin'
+										className={
+											window.matchMedia("(max-width:500px)")
+												? "errorRegisterSmall3"
+												: "errorLogin"
+										}
 										style={
 											errors.passwordConfirm && touched.passwordConfirm
 												? { paddingBottom: "10%" }
@@ -163,7 +165,11 @@ const Register = () => {
 											: null}
 									</div>
 									<div
-										className='errorLogin'
+										className={
+											window.matchMedia("(max-width:500px)")
+												? "errorRegisterSmall"
+												: "errorLogin"
+										}
 										style={
 											errors.question && touched.question
 												? { paddingBottom: "12%" }
@@ -183,7 +189,7 @@ const Register = () => {
 								</div>
 							</div>
 
-							<div className='row'>
+							<div className='row loginBig'>
 								<div
 									style={{
 										width: "50%",
@@ -220,6 +226,28 @@ const Register = () => {
 										Have you already an account?
 									</Link>
 								</div>
+							</div>
+							<div className='loginSmall' style={{ paddingTop: "10px" }}>
+								{" "}
+								<input
+									style={{ marginBottom: "10px" }}
+									className='buttonSignIn'
+									type='submit'
+									value='Sign in'
+								/>
+								<br />
+								<Link
+									to='/login'
+									onMouseEnter={() => setColor("black")}
+									onMouseLeave={() => setColor("#333333")}
+									style={{
+										fontSize: "18px",
+										textDecoration: "none",
+										color: color,
+									}}
+								>
+									Have you already an account?
+								</Link>
 							</div>
 							<div style={{ color: "red", marginTop: "4%", fontSize: "20px" }}>
 								{error}

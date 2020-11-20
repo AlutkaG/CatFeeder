@@ -140,21 +140,22 @@
 		display: none;
 	}
 	.textBox2 {
-		width: 350px;
-		height: 350px;
+		width: 300px;
+		height: 300px;
 		margin-right: 20%;
-		margin-left: 5%;
+		margin-left: 10%;
 		margin-top: 80px;
 	}
 
 	.text2 {
-		font-size: 30px;
+		padding-top: 15px;
+		font-size: 28px;
 	}
 
 	.pressButton {
-		width: 350px;
-		height: 350px;
-		margin-left: 5%;
+		width: 300px;
+		height: 300px;
+		margin-left: 10%;
 		background-size: 95%;
 	}
 }

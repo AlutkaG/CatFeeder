@@ -3,6 +3,7 @@ import Cookies from "js-cookie";
 
 import "./MyPets.css";
 import Modal from "./Modal";
+import Aux from "../../hoc/Aux";
 
 import Axios from "axios";
 
@@ -52,7 +53,6 @@ const PetCard = (props) => {
 
 		if (!isLoading || isClicked || isChangeClick) {
 			fetchData();
-			console.log("changeeeeeeee");
 			setIsClicked(false);
 			setIsLoading(true);
 			setIsChangeClick(false);
@@ -60,6 +60,7 @@ const PetCard = (props) => {
 	}, [isLoading, isClicked, isChangeClick]);
 	const changeActive = (id, index) => {
 		if (indexNow != index && !isChangeClick) {
+			console.log("idddddddd: " + id);
 			const data = {
 				idEn: id,
 			};
@@ -92,9 +93,10 @@ const PetCard = (props) => {
 		}
 	};
 
-	const deleteHandle = (id, index) => {
+	const deleteHandle = (id, name, index) => {
 		const data = {
 			id: id,
+			name: name,
 		};
 		Axios.post("http://catfeeder.ddns.net/api/v1/delete/" + usr, data)
 			.then((res) => {
@@ -107,10 +109,54 @@ const PetCard = (props) => {
 	};
 
 	const listPets = info.map((pet, index) => (
-		<div className='petCard' key={index}>
-			<div className='row'>
-				<div className='columnLeftCard namePet'>{pet.name}</div>
-				<div className='columnRightCard'>
+		<Aux>
+			<div className='petCardBig'>
+				<div className='petCard' key={index}>
+					<div className='row'>
+						<div className='columnLeftCard namePet'>{pet.name}</div>
+						<div className='columnRightCard'>
+							<button
+								className='cardButton'
+								style={
+									pet.active
+										? { backgroundColor: "green" }
+										: { backgroundColor: "#737373" }
+								}
+								onClick={(e) => {
+									changeActive(pet.id, index);
+								}}
+							>
+								{pet.active ? "Enabled" : "Disabled"}
+							</button>
+							<br />
+							<button
+								className='cardButton'
+								style={{ backgroundColor: "#006699" }}
+								onClick={(e) => {
+									showModal();
+									actualPet(pet, index);
+								}}
+							>
+								Edit
+							</button>
+							<br />
+							<button
+								className='cardButton'
+								style={{ backgroundColor: "black" }}
+								onClick={(e) => {
+									deleteHandle(pet.id, pet.name, index);
+								}}
+							>
+								Delete
+							</button>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div className='petCardSmall'>
+				<div className='petCard' key={index}>
+					<div className='namePet'>{pet.name}</div>
 					<button
 						className='cardButton'
 						style={
@@ -140,14 +186,14 @@ const PetCard = (props) => {
 						className='cardButton'
 						style={{ backgroundColor: "black" }}
 						onClick={(e) => {
-							deleteHandle(pet.id, index);
+							deleteHandle(pet.id, pet.name, index);
 						}}
 					>
 						Delete
 					</button>
 				</div>
 			</div>
-		</div>
+		</Aux>
 	));
 	return (
 		<div>

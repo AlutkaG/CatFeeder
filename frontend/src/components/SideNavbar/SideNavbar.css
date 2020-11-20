@@ -1,5 +1,5 @@
 .sidenav {
-	height: 30%;
+	height: 350px;
 	margin-top: 60px;
 	background-color: #262626;
 	box-shadow: 1px 0px 5px rgba(0, 0, 0, 0.5);
@@ -9,12 +9,12 @@
 	width: 100%;
 	z-index: 1;
 	text-align: center;
-	padding-top: 5%;
+	padding-top: 20px;
 	transform: translateY(1);
 }
 
 .sidenav a {
-	padding-bottom: 3%;
+	padding-bottom: 10px;
 	text-decoration: none;
 	font-size: 25px;
 	color: #d9d9d9;
@@ -27,12 +27,11 @@
 
 .sideTemp {
 	color: #b3ecff;
-	padding-top: 3%;
+	padding-top: 30px;
 	font-size: 22px;
 }
 
 .sideCloseBtn {
-	margin-top: 4%;
 	background-color: #262626;
 	outline: none;
 	border-style: none;
@@ -40,4 +39,11 @@
 	border-color: #262626;
 	cursor: pointer;
 	color: white;
+	margin-top: 50px;
+}
+
+@media (min-width: 1181px) {
+	.sidenav {
+		display: none;
+	}
 }

@@ -64,6 +64,14 @@
 	cursor: pointer;
 }
 
+.sensorsSmall {
+	padding-left: 20px;
+}
+
+.sensorsBig {
+	padding-left: 20px;
+}
+
 @media only screen and (min-width: 1181px) {
 	.icon-menu {
 		display: none;
@@ -71,22 +79,31 @@
 	.topNavLinksRightSensorsSmall {
 		display: none;
 	}
+	.sensorsSmall {
+		display: none;
+	}
 }
 
-@media only screen and (max-width: 1180px) {
+@media only screen and (max-width: 1180px) and (min-width: 500px) {
 	.topNavLinksRight {
 		display: none;
 	}
 	.appName {
 		font-size: 40px;
 	}
-	.topNavLinksLeft {
-		width: 75%;
-	}
-	.topNavLinksRightTemp {
+	.sensorsSmall {
 		display: none;
 	}
-	.topNavLinksRightSensorsBig {
-		width: 25%;
+}
+
+@media (max-width: 499px) {
+	.appName {
+		font-size: 30px;
+	}
+	.topNavLinksRight {
+		display: none;
+	}
+	.sensorsBig {
+		display: none;
 	}
 }
