@@ -229,8 +229,8 @@ p {
 	width: 70%;
 }
 
-@media (min-width: 751px) {
-	.oneColum {
+@media only screen and (min-width: 751px) {
+	.oneColumn {
 		display: none;
 	}
 	.petCardSmall {

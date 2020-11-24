@@ -101,7 +101,7 @@ function ForgotPassword() {
 										style={
 											errors.name && touched.name
 												? { paddingBottom: "6%" }
-												: { paddingBottom: "11%" }
+												: { paddingBottom: "20px" }
 										}
 									>
 										<Field type='text' name='name' className='fieldRegLog' />
@@ -117,7 +117,7 @@ function ForgotPassword() {
 										style={
 											errors.question && touched.question
 												? { paddingBottom: "12%" }
-												: { paddingBottom: "15%" }
+												: { paddingBottom: "20px" }
 										}
 									>
 										<Field
@@ -139,7 +139,7 @@ function ForgotPassword() {
 										style={
 											errors.password && touched.password
 												? { paddingBottom: "6%" }
-												: { paddingBottom: "11%" }
+												: { paddingBottom: "5px" }
 										}
 									>
 										<Field

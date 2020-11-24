@@ -63,7 +63,7 @@ function Login() {
 			const result = await Axios(
 				"http://catfeeder.ddns.net/api/v1/displayActivePet"
 			);
-			setPet(result.data.user);
+			setPet(result.data.pet);
 			setUser(result.data.user);
 			console.log(result);
 		};
@@ -104,15 +104,7 @@ function Login() {
 								<div className='columnLeftLogin'>
 									<div>Name:</div>
 									<br />
-									<div
-										style={
-											window.matchMedia("(max-width:500px)")
-												? { marginTop: "0%" }
-												: { marginTop: "3%" }
-										}
-									>
-										Password:
-									</div>
+									<div className='pswdMarginTop'>Password:</div>
 								</div>
 								<div className='columnRightLogin'>
 									<div

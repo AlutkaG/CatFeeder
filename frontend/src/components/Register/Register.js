@@ -113,7 +113,7 @@ const Register = () => {
 										style={
 											errors.name && touched.name
 												? { paddingBottom: "6%" }
-												: { paddingBottom: "11%" }
+												: { paddingBottom: "30px" }
 										}
 									>
 										<Field type='text' name='name' className='fieldRegLog' />
@@ -129,7 +129,7 @@ const Register = () => {
 										style={
 											errors.password && touched.password
 												? { paddingBottom: "6%" }
-												: { paddingBottom: "11%" }
+												: { paddingBottom: "10px" }
 										}
 									>
 										<Field
@@ -151,7 +151,7 @@ const Register = () => {
 										style={
 											errors.passwordConfirm && touched.passwordConfirm
 												? { paddingBottom: "10%" }
-												: { paddingBottom: "15%" }
+												: { paddingBottom: "25px" }
 										}
 									>
 										<Field
