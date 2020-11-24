@@ -24,6 +24,7 @@ GPIO.setup(21, GPIO.OUT) #dioda czerwona
 pwm = GPIO.PWM(6, 50) #czest. 50Hz
 sensor = W1ThermSensor()
 
+
 def dict_factory(cursor, row):
   d = {}
   for idx, col in enumerate(cursor.description):
@@ -134,6 +135,8 @@ def get_alert_no_feed(user):
     state = newState
   if(state==0):
     out = {'red': '0'}
+  else:
+    out = {'red': '1'}
     dateTime = datetime.now().strftime("%d/%m/%Y %H:%M:%S")
     act = "The tank is empty"
     name = get_current_pet()
@@ -141,8 +144,6 @@ def get_alert_no_feed(user):
        cur = con.cursor()
        cur.execute("INSERT INTO report (date,action,pet,user) VALUES (?,?,?,?)",(dateTime,act,name,user) )
        con.commit()
-  else:
-    out = {'red': '1'}
   return jsonify(out)
 
 @app.route("/api/v1/blue/<user>")
@@ -217,11 +218,17 @@ def addpet(user):
 
     hours = hours.replace("[", " ").replace("]", " ")
     minutes = minutes.replace("[", " ").replace("]", " ")
-    with sql.connect("database.db") as con:
-            cur = con.cursor()
-            cur.execute("INSERT INTO pet (name,type,portion,hours,minutes,active,user) VALUES (?,?,?,?,?,?,?)",(name,type,portion,hours,minutes,active,user) ) 
-            con.commit()
-    return 'ok'
+    con = sql.connect("database.db")
+    cur = con.cursor()
+    cur.execute("SELECT type FROM pet WHERE name = ?",(str(name),))
+    existName = cur.fetchone()
+    if (existName is None):
+      cur.execute("INSERT INTO pet (name,type,portion,hours,minutes,active,user) VALUES (?,?,?,?,?,?,?)",(name,type,portion,hours,minutes,active,user) ) 
+      con.commit()
+      msg = {'msg': 'ok'}
+    else:
+      msg = {'msg': 'Pet exist'}
+    return jsonify(msg)
     con.close()
 
 
@@ -252,10 +259,12 @@ def delete_pet(user):
   if request.method == "POST":
     req = request.get_json()
     id = req.get('id')
+    name = req.get('name')
 
     with sql.connect("database.db") as con:
       cur = con.cursor()
       cur.execute("DELETE FROM pet WHERE id = ?", (id, ) )
+      cur.execute("DELETE FROM report WHERE pet = ?", (str(name),))
       con.commit()
     return 'ok'
     con.close()
@@ -265,7 +274,7 @@ def delete_pet(user):
 def disabled_active_pet(user):
   if request.method == "POST":
     req = request.get_json()
-    id = req.get('idDis')
+    id = req.get('idDis') 
     with sql.connect("database.db") as con:
       cur = con.cursor()
       cur.execute("UPDATE pet SET active = 0 WHERE id = ?", (id, ) )
@@ -281,7 +290,6 @@ def enabled_active_pet(user):
     with sql.connect("database.db") as con:
       cur = con.cursor()
       cur.execute("UPDATE pet SET active = 0 WHERE id != ?", (id,) )
-      con.commit()
       cur.execute("UPDATE pet SET active = 1 WHERE id = ?", (id, ) )
       con.commit()
     return 'ok'
@@ -390,8 +398,7 @@ def get_blue_value():
 @crontab.job(minute= get_current_pet_minutes(), hour= get_current_pet_hours())
 def my_scheduled_job():
   b = get_blue_value()
-  print ("bb=",b)
-  if GPIO.input(25) == 0 and b == "1" : #Jezeli w zrobioniku jest karma
+  if GPIO.input(25) == 0 and b == "1" : #Jezeli w zrobioniku jest karma i kot byl w poblizu miski
     pwm.start(0)
     try:
       GPIO.output(20, GPIO.HIGH) #Zapal diode zielona
@@ -406,6 +413,8 @@ def my_scheduled_job():
       with sql.connect("database.db") as con:
         cur = con.cursor()
         cur.execute("INSERT INTO report (date,action,pet) VALUES (?,?,?)",(dateTime,act,name) )
+        con.commit()
+        cur.execute("UPDATE event SET blue = 0 WHERE id = 1")
         con.commit()
     except KeyboardInterrupt:
       pwm.stop()
