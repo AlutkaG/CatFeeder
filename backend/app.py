@@ -159,17 +159,17 @@ def get_alert_is_pet(user):
     sleep(0.000001) #Wykonywanie pomiaru przez 10us
     GPIO.output(18, False) #Ustawienie stanu niskiego na wyjscie TRIG
     #Oczekiwanie na stan wysoki na ECHO
-    pomiar_start = time()
-    pomiar_stop = time()
+    _start = time()
+    _stop = time()
     while GPIO.input(23) == 0:
-      pomiar_start = time()
+      _start = time()
     #Oczekiwanie na stan niski na ECHO
     while GPIO.input(23) == 1:
-      pomiar_stop = time()
-    opoznienieSygnalu = pomiar_stop - pomiar_start
-    dystans = (opoznienieSygnalu * 34300)/2 #Wynik w [cm] 
+      _stop = time()
+    delaySignal = _stop - _start
+    dist = (delaySignal * 34300)/2 #Wynik w [cm] 
     sleep(1)
-    if(dystans>10 and dystans<30): #Jezeli kot jest w odleglosci pomiedzy 10cm a 30cm
+    if(dist>10 and dist<30): #Jezeli kot jest w odleglosci pomiedzy 10cm a 30cm
       blue = {'blue': 1}
       _blue = 1
       dateTime = datetime.now().strftime("%d/%m/%Y %H:%M:%S")
