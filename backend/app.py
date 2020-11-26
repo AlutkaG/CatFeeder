@@ -167,9 +167,9 @@ def get_alert_is_pet(user):
     while GPIO.input(23) == 1:
       _stop = time()
     delaySignal = _stop - _start
-    dist = (delaySignal * 34300)/2 #Wynik w [cm] 
+    dist = int(delaySignal * 1000000/58) #Wynik w [cm] 
     sleep(1)
-    if(dist>10 and dist<30): #Jezeli kot jest w odleglosci pomiedzy 10cm a 30cm
+    if(dist>10 and dist<70): #Jezeli kot jest w odleglosci pomiedzy 10cm a 30cm
       blue = {'blue': 1}
       _blue = 1
       dateTime = datetime.now().strftime("%d/%m/%Y %H:%M:%S")
