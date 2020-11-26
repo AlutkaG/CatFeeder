@@ -208,7 +208,7 @@ def action(user):
       GPIO.cleanup()
     return 'ok'
   else:
-    return jsonify(new)
+    return 'brak karmy'
 
 
 @app.route("/api/v1/addpet/<user>", methods = ['POST'])
