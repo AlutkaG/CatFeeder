@@ -116,11 +116,6 @@ def disp_act_pet():
   return jsonify(info)
   con.close()
 
-@app.route("/api/v1/time")
-def get_current_time():
-  timee = {'time': time.time()}
-  return jsonify(timee)
-
 @app.route("/api/v1/temp")
 def get_current_temp():
   temp = sensor.get_temperature()
@@ -135,14 +130,25 @@ def get_alert_no_feed(user):
     state = newState
   if(state==0):
     out = {'red': '0'}
+    con = sql.connect("database.db")
+    cur = con.cursor()
+    cur.execute("SELECT red FROM event WHERE id = 1")
+    red = cur.fetchone()
+    if red[0] == 1:
+       cur.execute("UPDATE event SET red = 0 WHERE id = 1")
+       con.commit()
   else:
     out = {'red': '1'}
     dateTime = datetime.now().strftime("%d/%m/%Y %H:%M:%S")
     act = "The tank is empty"
     name = get_current_pet()
-    with sql.connect("database.db") as con:
-       cur = con.cursor()
+    con = sql.connect("database.db")
+    cur = con.cursor()
+    cur.execute("SELECT red FROM event WHERE id = 1")
+    red = cur.fetchone()
+    if red[0] == 0:
        cur.execute("INSERT INTO report (date,action,pet,user) VALUES (?,?,?,?)",(dateTime,act,name,user) )
+       cur.execute("UPDATE event SET red = 1 WHERE id = 1")
        con.commit()
   return jsonify(out)
 
