@@ -15,7 +15,7 @@ const Navbar = (props) => {
 	const [temp, setTemp] = useState("No information");
 	const usr = Cookies.get("user");
 	const history = useHistory();
-
+	const key = "P9T8F7R1A1P";
 	useEffect(() => {
 		const fetchData = async () => {
 			const resultRed = await axios(
@@ -26,7 +26,9 @@ const Navbar = (props) => {
 				"http://catfeeder.ddns.net/api/v1/blue/" + usr
 			);
 			setBlue(resultBlue.data.blue);
-			const resultTemp = await axios("http://catfeeder.ddns.net/api/v1/temp");
+			const resultTemp = await axios(
+				"http://catfeeder.ddns.net/api/v1/temp/" + key
+			);
 			setTemp(resultTemp.data.temp.toFixed(2) + " ℃");
 		};
 		const interval = setInterval(() => {
