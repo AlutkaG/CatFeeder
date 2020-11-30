@@ -12,6 +12,7 @@ const DailyReportCard = (props) => {
 	const [currentName, setCurrentName] = useState("");
 	const [info, setInfo] = useState([]);
 	const usr = Cookies.get("user");
+	const key = "P9T8F7R1A1P";
 
 	const showModal = () => {
 		setIsShow(!isShow);
@@ -21,7 +22,12 @@ const DailyReportCard = (props) => {
 		const data = {
 			name: pet,
 		};
-		Axios.post("http://catfeeder.ddns.net/api/v1/reportPet/" + usr, data)
+		Axios.post(
+			"https://alarmist-donkey-0357.dataplicity.io/api/v1/reportPet/" +
+				usr +
+				key,
+			data
+		)
 			.then((res) => {
 				setInfo(res.data);
 			})

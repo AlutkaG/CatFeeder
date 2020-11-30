@@ -33,6 +33,7 @@ function ForgotPassword() {
 	const [color, setColor] = useState("#333333");
 	const usr = Cookies.get("user");
 	const [error, setError] = useState("");
+	const key = "P9T8F7R1A1P";
 
 	const handleSubmit = (event) => {
 		let data = {
@@ -41,7 +42,11 @@ function ForgotPassword() {
 			question: event.question,
 		};
 
-		Axios.post("http://catfeeder.ddns.net/api/v1/forgotPassword", data)
+		Axios.post(
+			"https://alarmist-donkey-0357.dataplicity.io/api/v1/forgotPassword/" +
+				key,
+			data
+		)
 			.then((res) => {
 				console.log(res);
 				if (res.data.msg == "Change successful") {

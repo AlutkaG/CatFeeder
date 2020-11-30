@@ -30,6 +30,7 @@ function Login() {
 	const history = useHistory();
 	const [color, setColor] = useState("#333333");
 	const usr = Cookies.get("user");
+	const key = "P9T8F7R1A1P";
 
 	const handleSubmit = (event) => {
 		let data = {
@@ -37,7 +38,10 @@ function Login() {
 			password: event.password,
 		};
 
-		Axios.post("http://catfeeder.ddns.net/api/v1/login", data)
+		Axios.post(
+			"https://alarmist-donkey-0357.dataplicity.io/api/v1/login/" + key,
+			data
+		)
 			.then((res) => {
 				console.log(res);
 				if (res.data.msg == "Logged successful") {
@@ -61,7 +65,8 @@ function Login() {
 		}
 		const fetchData = async () => {
 			const result = await Axios(
-				"http://catfeeder.ddns.net/api/v1/displayActivePet"
+				"https://alarmist-donkey-0357.dataplicity.io/api/v1/displayActivePet/" +
+					key
 			);
 			setPet(result.data.pet);
 			setUser(result.data.user);

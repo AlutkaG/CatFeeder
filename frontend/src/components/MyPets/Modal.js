@@ -57,6 +57,7 @@ const Modal = (props) => {
 	const [hours, setHours] = useState("");
 	const [minutes, setMinutes] = useState("");
 	const usr = Cookies.get("user");
+	const key = "P9T8F7R1A1P";
 
 	const onClose = (e) => {
 		props.onClose && props.onClose(e);
@@ -89,7 +90,7 @@ const Modal = (props) => {
 		};
 
 		props.saveModal(data);
-		Axios.post("http://catfeeder.ddns.net/api/v1/update/" + usr, data)
+		Axios.post("http://catfeeder.ddns.net/api/v1/update/" + usr + key, data)
 			.then((res) => {
 				console.log(res);
 			})

@@ -33,6 +33,7 @@ const Register = () => {
 	const history = useHistory();
 	const [color, setColor] = useState("#333333");
 	const usr = Cookies.get("user");
+	const key = "P9T8F7R1A1P";
 
 	const handleSubmit = (event) => {
 		let data = {
@@ -41,7 +42,10 @@ const Register = () => {
 			question: event.question,
 		};
 
-		Axios.post("http://catfeeder.ddns.net/api/v1/register", data)
+		Axios.post(
+			"https://alarmist-donkey-0357.dataplicity.io/api/v1/register/" + key,
+			data
+		)
 			.then((res) => {
 				console.log(res);
 				if (res.data.msg == "Registration successful") {
