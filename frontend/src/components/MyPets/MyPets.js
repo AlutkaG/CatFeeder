@@ -95,7 +95,10 @@ function MyPets() {
 			active: 0,
 		};
 		Axios.post(
-			"https://alarmist-donkey-0357.dataplicity.io/api/v1/addpet/" + usr + key,
+			"https://alarmist-donkey-0357.dataplicity.io/api/v1/addpet/" +
+				usr +
+				"/" +
+				key,
 			data
 		)
 			.then((res) => {
@@ -103,6 +106,7 @@ function MyPets() {
 				if (res.data.msg == "Pet exist") {
 					setError("Pet is already added");
 				} else {
+					setError("");
 					setName(event.name);
 					setType(event.type);
 					setPortion(event.portion);
@@ -111,30 +115,29 @@ function MyPets() {
 					setIsAdded(1);
 					setId(id + 1);
 					setIsLoading(false);
+					nameArray.push(event.name);
+					typeArray.push(event.type);
+					portionArray.push(event.portion);
+					hoursArray.push(event.hours);
+					minutesArray.push(event.minutes);
+					isActiveArray.push(0);
+
+					let info = {
+						hours: event.hours,
+						id: id + 1,
+						minutes: event.minutes,
+						name: event.name,
+						portion: event.portion,
+						type: event.type,
+						active: 0,
+					};
+					infoArray.push(info);
+					setId(info.id);
 				}
 			})
 			.catch((error) => {
 				console.log(error.response);
 			});
-		nameArray.push(event.name);
-		typeArray.push(event.type);
-		portionArray.push(event.portion);
-		hoursArray.push(event.hours);
-		minutesArray.push(event.minutes);
-		isActiveArray.push(0);
-
-		let info = {
-			hours: event.hours,
-			id: id + 1,
-			minutes: event.minutes,
-			name: event.name,
-			portion: event.portion,
-			type: event.type,
-			active: 0,
-		};
-		infoArray.push(info);
-		setId(info.id);
-		console.log("info id: " + info.id);
 	};
 
 	useEffect(() => {
@@ -143,7 +146,10 @@ function MyPets() {
 		}
 		const fetchData = async () => {
 			const result = await Axios(
-				"https://alarmist-donkey-0357.dataplicity.io/api/v1/list/" + usr + key
+				"https://alarmist-donkey-0357.dataplicity.io/api/v1/list/" +
+					usr +
+					"/" +
+					key
 			);
 			if (didIt === false) {
 				for (let i = 0; i < result.data.length; i++) {
@@ -342,7 +348,7 @@ function MyPets() {
 												<Field
 													className='input'
 													type='text'
-													placeholder='Portion (1 portion -> 1 rotation of the servo)...'
+													placeholder='Portion (max 6)...'
 													name='portion'
 												/>
 												<div
@@ -361,7 +367,7 @@ function MyPets() {
 												<Field
 													className='input'
 													type='text'
-													placeholder='Hour (1-24)...'
+													placeholder='Hour (0-24)...'
 													name='hours'
 												/>
 												<div
@@ -380,7 +386,7 @@ function MyPets() {
 												<Field
 													className='input'
 													type='text'
-													placeholder='Minutes (1-59)...'
+													placeholder='Minutes (0-59)...'
 													name='minutes'
 												/>
 												<div
@@ -514,7 +520,7 @@ function MyPets() {
 										<Field
 											className='input'
 											type='text'
-											placeholder='Hour (1-24)...'
+											placeholder='Hour (0-23)...'
 											name='hours'
 										/>
 										<div
@@ -531,7 +537,7 @@ function MyPets() {
 										<Field
 											className='input'
 											type='text'
-											placeholder='Minutes (1-59)...'
+											placeholder='Minutes (0-59)...'
 											name='minutes'
 										/>
 										<div

@@ -19,11 +19,17 @@ const Navbar = (props) => {
 	useEffect(() => {
 		const fetchData = async () => {
 			const resultRed = await axios(
-				"https://alarmist-donkey-0357.dataplicity.io/api/v1/red/" + usr + key
+				"https://alarmist-donkey-0357.dataplicity.io/api/v1/red/" +
+					usr +
+					"/" +
+					key
 			);
 			setRed(resultRed.data.red);
 			const resultBlue = await axios(
-				"https://alarmist-donkey-0357.dataplicity.io/api/v1/blue/" + usr + key
+				"https://alarmist-donkey-0357.dataplicity.io/api/v1/blue/" +
+					usr +
+					"/" +
+					key
 			);
 			setBlue(resultBlue.data.blue);
 			const resultTemp = await axios(
