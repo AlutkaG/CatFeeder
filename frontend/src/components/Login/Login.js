@@ -81,7 +81,7 @@ function Login() {
 
 	return (
 		<div className='loginBody'>
-			<div className='appNameLogin'>Pet Feeder</div>
+			<div className='appNameLogin'>Pets Feeder</div>
 			<div className='loginBox'>
 				<div className='loginTitle'>Login</div>
 				<Formik
@@ -186,10 +186,8 @@ function Login() {
 
 							{user == undefined ? null : (
 								<div className='scheduleInfo'>
-									The active schedule is on the account: <br />
-									{user} <br />
-									The active schedule is for the pet:
-									<br /> {pet}
+									The active schedule is on the account: {user} <br />
+									The active schedule is for the pet: {pet}
 								</div>
 							)}
 							<div style={{ color: "red", marginTop: "4%", fontSize: "20px" }}>

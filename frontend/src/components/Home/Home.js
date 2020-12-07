@@ -111,7 +111,15 @@ function Home() {
 						You can feed your pet by clicking on the button!
 					</div>
 				</div>
-				<button className='pressButton' onClick={() => clickServoHandler()} />
+				<div
+					style={{
+						marginLeft: "auto",
+						marginRight: "auto",
+						width: "250px",
+					}}
+				>
+					<button className='pressButton' onClick={() => clickServoHandler()} />
+				</div>
 			</div>
 		</Aux>
 	);
