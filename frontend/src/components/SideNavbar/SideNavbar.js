@@ -9,6 +9,7 @@ import { Link, useHistory } from "react-router-dom";
 
 const SideNavbar = (props) => {
 	const [temp, setTemp] = useState("No information");
+	const key = "P9T8F7R1A1P";
 	const history = useHistory();
 
 	const onClose = (e) => {
@@ -17,7 +18,9 @@ const SideNavbar = (props) => {
 
 	useEffect(() => {
 		const fetchData = async () => {
-			const resultTemp = await axios("http://catfeeder.ddns.net/api/v1/temp");
+			const resultTemp = await axios(
+				"https://alarmist-donkey-0357.dataplicity.io/api/v1/temp/" + key
+			);
 			setTemp(resultTemp.data.temp.toFixed(2) + " ℃");
 		};
 		const interval = setInterval(() => {
@@ -39,7 +42,7 @@ const SideNavbar = (props) => {
 		<div className='sidenav'>
 			<Link to='/myPets'>My Pets</Link>
 			<Link to='/dailyReport'>Daily Report</Link>
-			<Link to='#'>About</Link>
+
 			<button
 				style={{
 					width: "40px",

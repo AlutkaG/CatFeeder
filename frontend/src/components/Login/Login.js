@@ -23,13 +23,15 @@ const AddLoginSchema = Yup.object().shape({
 });
 
 function Login() {
-	const [user, setUser] = useState(0);
-	const [pet, setPet] = useState(0);
+	const [user, setUser] = useState("");
+	const [pet, setPet] = useState("");
 	const { isLogged, setIsLogged } = useContext(LoggedContext);
 	const [error, setError] = useState("");
 	const history = useHistory();
 	const [color, setColor] = useState("#333333");
 	const usr = Cookies.get("user");
+	const [isActive, setIsActive] = useState(0);
+	const key = "P9T8F7R1A1P";
 
 	const handleSubmit = (event) => {
 		let data = {
@@ -37,9 +39,11 @@ function Login() {
 			password: event.password,
 		};
 
-		Axios.post("http://catfeeder.ddns.net/api/v1/login", data)
+		Axios.post(
+			"https://alarmist-donkey-0357.dataplicity.io/api/v1/login/" + key,
+			data
+		)
 			.then((res) => {
-				console.log(res);
 				if (res.data.msg == "Logged successful") {
 					Cookies.set("user", event.name);
 					setIsLogged(true);
@@ -51,7 +55,9 @@ function Login() {
 				}
 			})
 			.catch((error) => {
-				console.log(error.response);
+				if ((error = "Error: Network Error")) {
+					setError("Network Error");
+				}
 			});
 	};
 
@@ -61,33 +67,23 @@ function Login() {
 		}
 		const fetchData = async () => {
 			const result = await Axios(
-				"http://catfeeder.ddns.net/api/v1/displayActivePet"
+				"https://alarmist-donkey-0357.dataplicity.io/api/v1/displayActivePet/" +
+					key
 			);
+
 			setPet(result.data.pet);
 			setUser(result.data.user);
-			console.log(result);
+
+			console.log(result.data.pet);
 		};
 		fetchData();
 	}, []);
 
 	return (
 		<div className='loginBody'>
-			<div className='appNameLogin'>Pet Feeder</div>
+			<div className='appNameLogin'>Pets Feeder</div>
 			<div className='loginBox'>
-				<div
-					style={{
-						fontSize: "50px",
-						marginBottom: "7%",
-						paddingBottom: "2%",
-						paddingTop: "5%",
-						borderStyle: "none none solid none",
-						borderWidth: "1px",
-						color: "white",
-						backgroundColor: "rgba(0,0,0,0.8)",
-					}}
-				>
-					Login
-				</div>
+				<div className='loginTitle'>Login</div>
 				<Formik
 					initialValues={{
 						name: "",
@@ -139,7 +135,7 @@ function Login() {
 									</div>
 								</div>
 							</div>
-							<div className='row loginBig'>
+							<div className='row '>
 								<div
 									style={{
 										width: "50%",
@@ -166,9 +162,8 @@ function Login() {
 										to='/register'
 										onMouseEnter={() => setColor("black")}
 										onMouseLeave={() => setColor("#333333")}
+										className='loginLink'
 										style={{
-											fontSize: "18px",
-											textDecoration: "none",
 											color: color,
 										}}
 									>
@@ -179,9 +174,8 @@ function Login() {
 										to='/forgotPassword'
 										onMouseEnter={() => setColor("black")}
 										onMouseLeave={() => setColor("#333333")}
+										className='loginLink'
 										style={{
-											fontSize: "18px",
-											textDecoration: "none",
 											color: color,
 										}}
 									>
@@ -189,49 +183,9 @@ function Login() {
 									</Link>
 								</div>
 							</div>
-							<div className='loginSmall'>
-								{" "}
-								<input
-									style={{ marginBottom: "10px" }}
-									className='buttonSignIn'
-									type='submit'
-									value='Sign in'
-								/>
-								<br />
-								<Link
-									to='/register'
-									onMouseEnter={() => setColor("black")}
-									onMouseLeave={() => setColor("#333333")}
-									style={{
-										fontSize: "18px",
-										textDecoration: "none",
-										color: color,
-									}}
-								>
-									Don't have account?
-								</Link>
-								<br />
-								<Link
-									to='/forgotPassword'
-									onMouseEnter={() => setColor("black")}
-									onMouseLeave={() => setColor("#333333")}
-									style={{
-										fontSize: "18px",
-										textDecoration: "none",
-										color: color,
-									}}
-								>
-									Forgot password?
-								</Link>
-							</div>
-							{user == 0 ? null : (
-								<div
-									style={{
-										color: "green",
-										marginTop: "4%",
-										fontSize: "20px",
-									}}
-								>
+
+							{user == undefined ? null : (
+								<div className='scheduleInfo'>
 									The active schedule is on the account: {user} <br />
 									The active schedule is for the pet: {pet}
 								</div>

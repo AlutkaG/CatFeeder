@@ -13,6 +13,7 @@ function Home() {
 	const history = useHistory();
 	const usr = Cookies.get("user");
 	const [sidenavOpen, setSidenavOpen] = useState(false);
+	const key = "P9T8F7R1A1P";
 
 	useEffect(() => {
 		if (!usr) {
@@ -32,7 +33,10 @@ function Home() {
 		console.log("haj");
 		const fetchData = async () => {
 			const result = await axios(
-				"http://catfeeder.ddns.net/api/v1/activate/" + usr
+				"https://alarmist-donkey-0357.dataplicity.io/api/v1/activate/" +
+					usr +
+					"/" +
+					key
 			);
 		};
 		fetchData();
@@ -107,7 +111,15 @@ function Home() {
 						You can feed your pet by clicking on the button!
 					</div>
 				</div>
-				<button className='pressButton' onClick={() => clickServoHandler()} />
+				<div
+					style={{
+						marginLeft: "auto",
+						marginRight: "auto",
+						width: "250px",
+					}}
+				>
+					<button className='pressButton' onClick={() => clickServoHandler()} />
+				</div>
 			</div>
 		</Aux>
 	);

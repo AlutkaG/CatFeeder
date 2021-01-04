@@ -15,18 +15,26 @@ const Navbar = (props) => {
 	const [temp, setTemp] = useState("No information");
 	const usr = Cookies.get("user");
 	const history = useHistory();
-
+	const key = "P9T8F7R1A1P";
 	useEffect(() => {
 		const fetchData = async () => {
 			const resultRed = await axios(
-				"http://catfeeder.ddns.net/api/v1/red/" + usr
+				"https://alarmist-donkey-0357.dataplicity.io/api/v1/red/" +
+					usr +
+					"/" +
+					key
 			);
 			setRed(resultRed.data.red);
 			const resultBlue = await axios(
-				"http://catfeeder.ddns.net/api/v1/blue/" + usr
+				"https://alarmist-donkey-0357.dataplicity.io/api/v1/blue/" +
+					usr +
+					"/" +
+					key
 			);
 			setBlue(resultBlue.data.blue);
-			const resultTemp = await axios("http://catfeeder.ddns.net/api/v1/temp");
+			const resultTemp = await axios(
+				"https://alarmist-donkey-0357.dataplicity.io/api/v1/temp/" + key
+			);
 			setTemp(resultTemp.data.temp.toFixed(2) + " ℃");
 		};
 		const interval = setInterval(() => {
@@ -91,7 +99,7 @@ const Navbar = (props) => {
 						</p>
 						<Link to='/myPets'>My pets </Link>
 						<Link to='/dailyReport'>Daily Report</Link>
-						<Link to='#'>About </Link>
+
 						<button
 							style={{
 								width: "40px",

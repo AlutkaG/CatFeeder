@@ -18,6 +18,7 @@ const PetCard = (props) => {
 	const [isChangeClick, setIsChangeClick] = useState(false);
 	const usr = Cookies.get("user");
 	const info = props.info;
+	const key = "P9T8F7R1A1P";
 
 	const showModal = () => {
 		setIsShow(!isShow);
@@ -36,7 +37,10 @@ const PetCard = (props) => {
 	useEffect(() => {
 		const fetchData = async () => {
 			const result = await Axios(
-				"http://catfeeder.ddns.net/api/v1/getActiveId/" + usr
+				"https://alarmist-donkey-0357.dataplicity.io/api/v1/getActiveId/" +
+					usr +
+					"/" +
+					key
 			);
 			console.log(info.length);
 			for (let i = 0; i < info.length; i++) {
@@ -66,7 +70,13 @@ const PetCard = (props) => {
 			};
 
 			setIndexNow(index);
-			Axios.post("http://catfeeder.ddns.net/api/v1/enabled/" + usr, data)
+			Axios.post(
+				"https://alarmist-donkey-0357.dataplicity.io/api/v1/enabled/" +
+					usr +
+					"/" +
+					key,
+				data
+			)
 				.then((res) => {
 					console.log(res);
 				})
@@ -81,7 +91,13 @@ const PetCard = (props) => {
 			};
 
 			setIndexNow(-1);
-			Axios.post("http://catfeeder.ddns.net/api/v1/disabled/" + usr, data)
+			Axios.post(
+				"https://alarmist-donkey-0357.dataplicity.io/api/v1/disabled/" +
+					usr +
+					"/" +
+					key,
+				data
+			)
 				.then((res) => {
 					console.log(res);
 				})
@@ -98,7 +114,13 @@ const PetCard = (props) => {
 			id: id,
 			name: name,
 		};
-		Axios.post("http://catfeeder.ddns.net/api/v1/delete/" + usr, data)
+		Axios.post(
+			"https://alarmist-donkey-0357.dataplicity.io/api/v1/delete/" +
+				usr +
+				"/" +
+				key,
+			data
+		)
 			.then((res) => {
 				console.log(res);
 			})

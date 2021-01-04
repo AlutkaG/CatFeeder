@@ -14,6 +14,7 @@ function DailyReport() {
 	const [sidenavOpen, setSidenavOpen] = useState(false);
 	const history = useHistory();
 	const usr = Cookies.get("user");
+	const key = "P9T8F7R1A1P";
 
 	useEffect(() => {
 		if (!usr) {
@@ -21,7 +22,10 @@ function DailyReport() {
 		}
 		const fetchData = async () => {
 			const result = await Axios(
-				"http://catfeeder.ddns.net/api/v1/list/" + usr
+				"https://alarmist-donkey-0357.dataplicity.io/api/v1/list/" +
+					usr +
+					"/" +
+					key
 			);
 			for (let i = 0; i < result.data.length; i++) {
 				setNameArray((prev) => [...prev, result.data[i].name]);
