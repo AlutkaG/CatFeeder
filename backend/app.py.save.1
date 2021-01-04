@@ -23,7 +23,7 @@ GPIO.setup(21, GPIO.OUT) #dioda czerwona
 
 pwm = GPIO.PWM(6, 50) #czest. 50Hz
 sensor = W1ThermSensor()
-key = 'P9T8F7R1A1P'
+key = P9T8F7R1A1P
 
 def dict_factory(cursor, row):
   d = {}
@@ -31,7 +31,7 @@ def dict_factory(cursor, row):
     d[col[0]] = row[idx]
   return d
 
-@app.route("/api/v1/register/"+key, methods=['POST'])
+@app.route("/api/v1/register", methods=['POST'])
 def registration():
   if request.method == "POST":
     req = request.get_json()
@@ -52,7 +52,7 @@ def registration():
     return jsonify(response)
     con.close()
 
-@app.route("/api/v1/login/"+key, methods=['POST'])
+@app.route("/api/v1/login", methods=['POST'])
 def login():
   if request.method == "POST":
     req = request.get_json()
@@ -73,7 +73,7 @@ def login():
     return jsonify(response)
     con.close()
 
-@app.route("/api/v1/forgotPassword/"+key, methods=['POST'])
+@app.route("/api/v1/forgotPassword", methods=['POST'])
 def change_pswd():
   if request.method == "POST":
     req = request.get_json()
@@ -96,7 +96,7 @@ def change_pswd():
     return jsonify(msg)
     con.close()
 
-@app.route("/api/v1/displayActivePet/"+key)
+@app.route("/api/v1/displayActivePet")
 def disp_act_pet():
   con = sql.connect("database.db")
   cur = con.cursor()
@@ -116,13 +116,13 @@ def disp_act_pet():
   return jsonify(info)
   con.close()
 
-@app.route("/api/v1/temp/"+key)
+@app.route("/api/v1/temp/")
 def get_current_temp():
   temp = sensor.get_temperature()
   data = {'temp': temp}
   return jsonify(data)
 
-@app.route("/api/v1/red/<user>/"+key)
+@app.route("/api/v1/red/<user>")
 def get_alert_no_feed(user):
   state = 0
   newState = GPIO.input(25)
@@ -152,7 +152,7 @@ def get_alert_no_feed(user):
        con.commit()
   return jsonify(out)
 
-@app.route("/api/v1/blue/<user>/"+key)
+@app.route("/api/v1/blue/<user>")
 def get_alert_is_pet(user):
   while True:
     GPIO.output(18, True) #Ustawienie stanu wysokiego na wyjscie TRIG
@@ -184,7 +184,7 @@ def get_alert_is_pet(user):
       blue = {'blue': 0}
     return jsonify(blue)
 
-@app.route("/api/v1/activate/<user>/"+key)
+@app.route("/api/v1/activate/<user>")
 def action(user):
   if(GPIO.input(25) == 0 ): #Jezeli w zrobioniku jest karma
     pwm.start(0)
@@ -211,7 +211,7 @@ def action(user):
     return 'brak karmy'
 
 
-@app.route("/api/v1/addpet/<user>/"+key, methods = ['POST'])
+@app.route("/api/v1/addpet/<user>", methods = ['POST'])
 def addpet(user):
   if request.method == "POST":
     req = request.get_json()
@@ -238,7 +238,7 @@ def addpet(user):
     con.close()
 
 
-@app.route("/api/v1/update/<user>/"+key, methods= ['POST'])
+@app.route("/api/v1/update/<user>", methods= ['POST'])
 def updatepet(user):
   if request.method == "POST":
     req = request.get_json()
@@ -260,7 +260,7 @@ def updatepet(user):
     return 'ok'
     con.close()
 
-@app.route('/api/v1/delete/<user>/'+key, methods=['POST'])
+@app.route('/api/v1/delete/<user>', methods=['POST'])
 def delete_pet(user):
   if request.method == "POST":
     req = request.get_json()
@@ -276,7 +276,7 @@ def delete_pet(user):
     con.close()
 
 
-@app.route("/api/v1/disabled/<user>/"+key, methods = ['POST'])
+@app.route("/api/v1/disabled/<user>", methods = ['POST'])
 def disabled_active_pet(user):
   if request.method == "POST":
     req = request.get_json()
@@ -288,7 +288,7 @@ def disabled_active_pet(user):
     return 'ok'
     con.close()
 
-@app.route("/api/v1/enabled/<user>/"+key, methods = ['POST'])
+@app.route("/api/v1/enabled/<user>", methods = ['POST'])
 def enabled_active_pet(user):
   if request.method == "POST":
     req = request.get_json()
@@ -301,7 +301,7 @@ def enabled_active_pet(user):
     return 'ok'
     con.close()
 
-@app.route('/api/v1/list/<user>/'+key)
+@app.route('/api/v1/list/<user>')
 def list(user):
    con = sql.connect("database.db")
    con.row_factory = dict_factory #sql.Row
@@ -310,7 +310,7 @@ def list(user):
    rows = cur.fetchall();
    return jsonify(rows)
 
-@app.route('/api/v1/getActiveId/<user>/'+key)
+@app.route('/api/v1/getActiveId/<user>')
 def get_active_id(user):
   con = sql.connect("database.db")
   cur = con.cursor()
@@ -327,7 +327,7 @@ def get_active_id(user):
     _id = {'id': 0}
   return jsonify(_id)
 
-@app.route('/api/v1/reportPet/<user>/'+key, methods = ['POST'])
+@app.route('/api/v1/reportPet/<user>', methods = ['POST'])
 def get_report(user):
   if request.method == "POST":
     req = request.get_json()
